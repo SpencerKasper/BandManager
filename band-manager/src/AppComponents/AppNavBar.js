@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import RecipeAddModal from '../Recipes/RecipeAddModal.js';
-import '../Styles/App.css';
-import RegistrationModal from '../Registration/RegistrationModal';
+import '../App.css';
 import LoginModal from '../Login/LoginModal';
+import {Row, Col, Container} from 'reactstrap';
 
 class AppNavBar extends Component {
   constructor(props){
@@ -16,9 +15,19 @@ class AppNavBar extends Component {
   render() {
     return (
       <div className="topnav">
-        <a className="Applink">Home</a>
-        <LoginModal buttonLabel="Log In" />
-        <p style={loggedInText}>{this.state.loggedInUserName}</p>
+        <Container>
+            <Row>
+                <Col>
+                    <a className="App-link">Home</a>
+                </Col>
+                <Col>
+                    <LoginModal buttonLabel="Log In" />
+                </Col>
+                <Col>
+                    <p>{this.state.loggedInUserName}</p>
+                </Col>
+            </Row>
+        </Container>
       </div>
     );
   }
