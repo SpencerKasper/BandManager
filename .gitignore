@@ -1,0 +1,2 @@
+# exclude everything in node modules folder
+band-manager/node_modules/*
