@@ -8,7 +8,7 @@ class AppNavBar extends Component {
     super(props);
 
     this.state = {
-      loggedInUserName: ""
+      loggedInUserName: "Spencer Kasper"
     }
   }
 
@@ -24,7 +24,7 @@ class AppNavBar extends Component {
                     <LoginModal buttonLabel="Log In" />
                 </Col>
                 <Col>
-                    <p>{this.state.loggedInUserName}</p>
+                    <p className="App-link">{this.state.loggedInUserName}</p>
                 </Col>
             </Row>
         </Container>

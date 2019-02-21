@@ -1,20 +1,20 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import LoginForm from './LoginForm';
-import '../App.css';
 
 const loggedInText = {
   color: "white"
 };
 
-class Login extends React.Component {
+class AppModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      errorMessageList: [],
+      modalTitle: this.props.modalTitle,
+      openButtonLink: this.props.openButtonLink
     };
 
-    this.submitRecipe = this.submitRecipe.bind(this);
     this.toggle = this.toggle.bind(this);
   }
 
@@ -24,21 +24,18 @@ class Login extends React.Component {
     });
   }
 
-  submitRecipe(){
-
-  }
-
   render() {
     return (
       <div>
-        <a onClick={this.toggle} className="App-link">{this.props.buttonLabel}</a>
+        <a onClick={this.toggle} style={loggedInText}>{this.state.openButtonLink}</a>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Log In</ModalHeader>
+          <ModalHeader toggle={this.toggle}>{this.state.modalTitle}</ModalHeader>
           <ModalBody>
-            <LoginForm />
+            {this.props.errorMessageList}
+            {this.props.modalBody}
           </ModalBody>
           <ModalFooter>
-            <Button color="success" onClick={this.submitRecipe}>Log In</Button>{' '}
+            <Button color="success" onClick={this.props.submitFunction}>{this.props.submitButtonName}</Button>{' '}
             <Button color="danger" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>
@@ -47,4 +44,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default AppModal;

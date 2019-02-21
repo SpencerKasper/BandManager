@@ -4,6 +4,7 @@ import './App.css';
 import AppNavBar from './AppComponents/AppNavBar';
 import {BrowserRouter, Route} from 'react-router-dom'
 import AppHeader from './AppComponents/AppHeader';
+import Register from './Registration/Register';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
 
           <div>
             <Route exact path='/' component={Home} />
+            <Route path='/register' component={Register} />
           </div>
         </div>
       </BrowserRouter>
