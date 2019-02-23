@@ -17,11 +17,12 @@ class Register extends Component {
             phoneNumber: "",
             password1: "",
             password2: "",
-            passwordsMatch: true,
+            passwordsMatch: false,
             errors: [],
             errorMessages: [],
-            validatePassword: true,
-            validUser: true
+            validatePassword: false,
+            validUser: false,
+            redirect: false
         }
     
         this.handleUserName = this.handleUserName.bind(this);
@@ -72,8 +73,6 @@ class Register extends Component {
       handlePhoneNumber(phoneNumber){
           this.setState({
               phoneNumber: phoneNumber
-          }, () => {
-              //alert(this.state.phoneNumber);
           })
       }
     
@@ -169,16 +168,24 @@ class Register extends Component {
                 "email": this.state.email,
                 "phoneNumber": this.state.phoneNumber
             }).then(response => {
-
+                if(response.data.message !== null && response.data.message != "undefined" && response.data.message !== undefined){
+                    alert(response.data.message);
+                } else {
+                    window.location.href = "http://localhost:3001/";
+                }
             })
         }
       }
     
       render() {
+        if(this.state.redirect){
+            return <Redirect to="/" />
+        }
         return (
           <div className="registrationPage">
                 <div className="registerWelcome">
                     <p>Please sign up with all of your info below.  When you're finished, go ahead and attempt to log in!</p>
+                    <a href="/login">Already have an account? Click here to login!</a>
                 </div>
 
                 <RegistrationForm

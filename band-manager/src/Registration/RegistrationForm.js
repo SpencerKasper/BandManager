@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import InputItemGroup from '../AppComponents/InputItemGroup';
-import ErrorMessage from '../Error/ErrorMessage';
 import 'react-phone-number-input/style.css';
 import PhoneInput  from 'react-phone-number-input';
 import DatePicker from 'react-datepicker';

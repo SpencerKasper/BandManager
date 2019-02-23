@@ -22,23 +22,58 @@ router.get('/:userName',function(req, res){
     });
 });
 
+// Validate one user for login
+router.get('/:userName/:password',function(req, res){
+    var collection = db.get('User');
+    collection.findOne({userName: req.params.userName}, function(err,user){
+        if(err) throw err;
+
+        if(user != null && user != undefined){
+            if(user.password === req.params.password){
+                res.json(true);
+            } else {
+                res.json(false);
+            }
+        } else {
+            res.json(false);
+        }
+    });
+});
+
 // Add a user
 router.post('/', function(req, res){
     var collection = db.get('User');
 
-    collection.insert({
-        userName: req.body.userName,
-        password: req.body.password,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        dateOfBirth: req.body.dateOfBirth,
-        email: req.body.email,
-        phoneNumber: req.body.phoneNumber,
-        type: 'Regular'
-    }, function(err, user){
+    collection.findOne({userName: req.body.userName}, function(err,user){
         if(err) throw err;
 
-        res.json(user);
+        if(user !== null && user.userName === req.body.userName){
+            console.error("Error: Username already exists.");
+            res.status(200).send({
+                message: "Error: Username already exists."
+            })
+        } else if( user !== null && user.email === req.body.email){
+            console.error("Error: Email already exists.");
+            res.status(200).send({
+                message: "Error: Email already exists."
+            })
+        }else {
+            collection.insert({
+                userName: req.body.userName,
+                password: req.body.password,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                dateOfBirth: req.body.dateOfBirth,
+                email: req.body.email,
+                phoneNumber: req.body.phoneNumber,
+                type: 'Regular'
+            }, function(err, user){
+                if(err) throw err;
+        
+                res.json(user);
+            });
+        }
+        
     });
 });
 

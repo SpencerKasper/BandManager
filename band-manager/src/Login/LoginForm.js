@@ -1,24 +1,36 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import InputItemGroup from '../AppComponents/InputItemGroup';
+import '../Login/Login.css';
 
 class LoginForm extends Component {
 
   render() {
     return (
-      <div>
+      <div className="logInForm">
         <Form>
+          <InputItemGroup
+                labelName={"User Name:"}
+                inputType={"text"}
+                placeholder={"Enter your user name here."}
+                errorMessage={""}
+                shareItemValue={this.props.handleUserName}
+            />
+
+            <InputItemGroup
+              labelName={"Password:"}
+              inputType={"password"}
+              shareItemValue={this.props.handlePassword}
+              placeholder={"Enter your password here."}
+              errorMessage={""}
+            />
+
             <FormGroup>
-                <Label for="userName">User Name:</Label>
-                <Input  type="text" name="userName" id="userName" placeholder="Enter your user name here."/>
+              <Button onClick={this.props.handleLogIn}>Log In</Button>
             </FormGroup>
 
             <FormGroup>
-                <Label for="password">Password:</Label>
-                <Input type="password" name="password" id="password" placeholder="Enter your password here."></Input>
-            </FormGroup>
-
-            <FormGroup>
-                <a href="#">Don't have an account? Click here!</a>
+                <a href="/register">Don't have an account? Click here!</a>
             </FormGroup>
         </Form>
       </div>

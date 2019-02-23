@@ -1,33 +1,76 @@
 import React, { Component } from 'react';
 import '../App.css';
-import LoginModal from '../Login/LoginModal';
-import {Row, Col, Container} from 'reactstrap';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap';
+
+  const appLink = {
+    color: "white",
+    fontSize: 20
+  }
+
+  const homeButton = {
+    color: "white"
+  }
 
 class AppNavBar extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      loggedInUserName: "Spencer Kasper"
+      isOpen: false
     }
+
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle(){
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
   }
 
   render() {
+    let navbarContent;
+
+    if(this.props.isAuthenticated) {
+      navbarContent =
+      <Nav className="ml-auto" navbar>
+        <NavItem>
+          <NavLink href="/" style={appLink}>Home</NavLink>
+        </NavItem>
+      </Nav>;
+    } else {
+      navbarContent = 
+      <Nav className="ml-auto" navbar>
+        <NavItem>
+          <NavLink href="/register" style={appLink}>Register</NavLink>
+        </NavItem>
+
+        <NavItem>
+          <NavLink href="/login" style={appLink}>Log In</NavLink>
+        </NavItem>
+      </Nav>;
+    }
+
     return (
-      <div className="topnav">
-        <Container>
-            <Row>
-                <Col>
-                    <a className="App-link">Home</a>
-                </Col>
-                <Col>
-                    <LoginModal buttonLabel="Log In" />
-                </Col>
-                <Col>
-                    <p className="App-link">{this.state.loggedInUserName}</p>
-                </Col>
-            </Row>
-        </Container>
+      <div>
+        <Navbar color="primary" light expand="md">
+          <NavbarBrand href="/" style={homeButton}>Home</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            {navbarContent}
+          </Collapse>
+        </Navbar>
       </div>
     );
   }
