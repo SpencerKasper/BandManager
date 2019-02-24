@@ -3,6 +3,7 @@ import RegistrationForm from './RegistrationForm';
 import Axios from 'axios';
 import './Register.css';
 import {Redirect} from 'react-router-dom';
+import AppHeader from '../AppComponents/AppHeader';
 
 class Register extends Component {
     constructor(props) {
@@ -171,7 +172,7 @@ class Register extends Component {
                 if(response.data.message !== null && response.data.message != "undefined" && response.data.message !== undefined){
                     alert(response.data.message);
                 } else {
-                    window.location.href = "http://localhost:3001/";
+                    window.location.href = "http://localhost:3001/login";
                 }
             })
         }
@@ -182,7 +183,10 @@ class Register extends Component {
             return <Redirect to="/" />
         }
         return (
-          <div className="registrationPage">
+          <div>
+            <AppHeader 
+                title={"Registration"}/>
+            <div className="registrationPage">
                 <div className="registerWelcome">
                     <p>Please sign up with all of your info below.  When you're finished, go ahead and attempt to log in!</p>
                     <a href="/login">Already have an account? Click here to login!</a>
@@ -200,6 +204,7 @@ class Register extends Component {
                     handlePhoneNumber={this.handlePhoneNumber}
                     registerUser={this.registerUser}
                     />
+                </div>
           </div>
         );
     }

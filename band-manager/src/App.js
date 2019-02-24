@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import Home from './Home/Home';
+import MyBands from './MyBands/MyBands';
 import './App.css';
 import AppNavBar from './AppComponents/AppNavBar';
 import {BrowserRouter, Route} from 'react-router-dom'
 import AppHeader from './AppComponents/AppHeader';
 import Register from './Registration/Register';
 import Login from './Login/Login';
+import {AsyncStorage} from 'AsyncStorage';
+import SignOut from './Login/SignOut';
 
 class App extends Component {
   constructor(props){
@@ -22,28 +24,33 @@ class App extends Component {
     this.handleAuthentication = this.handleAuthentication.bind(this);
   }
 
+  componentDidMount(){
+    AsyncStorage.getItem("isLoggedIn").then((value) => this.setState({authenticated: value}));
+  }
+
   handleAuthentication(isAuthed){
     this.setState({
       authenticated: isAuthed
-    }, () => {
-      alert("Authenticated: " + this.state.authenticated);
     })
   }
 
   render() {
     return (
       <BrowserRouter>
-        <div className="App">
-          <AppHeader />
-          <AppNavBar 
-            loggedInUserName={this.state.loggedInUserName}
-            isAuthenticated={this.state.authenticated}/>
+        <div>
+          <div>
+            <AppNavBar 
+              loggedInUserName={this.state.loggedInUserName}
+              isAuthenticated={this.state.authenticated}/>
+          </div>
 
           <div>
-            <Route exact path='/' component={Home} />
+            <Route path="/" component={Register}/>
+            <Route exact path='/mybands' component={MyBands} />
             <Route path='/register' component={Register} />
             <Route path='/login' 
               render={(props) => <Login handleAuthentication={this.handleAuthentication}/>}/>
+            <Route path='/signOut' component={SignOut} />
           </div>
         </div>
       </BrowserRouter>

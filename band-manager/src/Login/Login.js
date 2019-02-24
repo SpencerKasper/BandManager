@@ -3,6 +3,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import LoginForm from './LoginForm';
 import '../App.css';
 import Axios from 'axios';
+import {AsyncStorage} from 'AsyncStorage';
+import AppHeader from '../AppComponents/AppHeader';
 
 const loggedInText = {
   color: "white"
@@ -34,10 +36,14 @@ class Login extends React.Component {
   logIn(){
     Axios.get("http://localhost:3000/users/" + this.state.userName + "/" + this.state.password)
       .then(response => {
-        if(response.data == true){
+        if(response.data.validUser == true){
+          AsyncStorage.setItem("isLoggedIn", true);
+          AsyncStorage.setItem("loggedInUsername", response.data.userName);
+          AsyncStorage.setItem("loggedInUserFullName", response.data.fullName);
           this.props.handleAuthentication(true);
+          window.location.href = "http://localhost:3001/mybands";
         } else {
-
+          alert("The user name and password cannot be determined to be valid.");
         }
       })
   }
@@ -57,6 +63,8 @@ class Login extends React.Component {
   render() {
     return (
       <div>
+        <AppHeader 
+          title={"Log In"}/>
         <div>
           <p>
             Please enter your info below to log in.  If you don't have an account, click the link below to sign up!
