@@ -27,7 +27,7 @@ class AppModal extends React.Component {
   render() {
     return (
       <div>
-        <a onClick={this.toggle} style={loggedInText}>{this.state.openButtonLink}</a>
+        <Button onClick={this.toggle} color="secondary">{this.props.modalOpenButtonName}</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>{this.state.modalTitle}</ModalHeader>
           <ModalBody>

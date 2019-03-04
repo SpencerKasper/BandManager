@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
 import AppHeader from '../AppComponents/AppHeader';
+import BandList from './BandList';
+import AddABandModal from './AddABandModal';
 
-class Home extends Component {
+class MyBands extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      isLoggedIn: "",
+      
+    }
+  }
+
   render() {
     return (
-      <div className="Home">
+      <div className="MyBands">
         <div>
           <AppHeader
             title={"My Bands"}/>
         </div>
+        <div>
+          <AddABandModal />
+          <BandList />
+        </div>
+
       </div>
     );
   }
 }
 
-export default Home;
+export default MyBands;

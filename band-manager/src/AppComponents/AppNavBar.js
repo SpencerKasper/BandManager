@@ -55,39 +55,45 @@ class AppNavBar extends Component {
 
     if(this.props.isAuthenticated === true || this.props.isAuthenticated === "true") {
       navbarContent =
-      <Nav className="ml-auto" navbar>
-        <NavItem className="App">
-          <p style={appLink}>Welcome back, {this.state.loggedInFullName}!</p>
-        </NavItem>
-        <NavItem className="App">
-          <p style={appLink}>Logged in as {this.state.loggedInUsername}</p>
-        </NavItem>
-        <NavItem className="App">
-          <NavLink href="/signOut" style={appLink}>Sign Out</NavLink>
-        </NavItem>
-      </Nav>;
+      <Navbar className="navBar" color="primary" light expand="*" fixed={"top"}>
+          <NavbarBrand href="/myBands" style={homeButton}>Band Manager</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+          <Nav className="ml-auto" navbar>
+            <NavItem className="App">
+              <p style={appLink}>Welcome back, {this.state.loggedInFullName}!</p>
+            </NavItem>
+            <NavItem className="App">
+              <p style={appLink}>Logged in as {this.state.loggedInUsername}</p>
+            </NavItem>
+            <NavItem className="App">
+              <NavLink href="/signOut" style={appLink}>Sign Out</NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Navbar>;
     } else {
-      navbarContent = 
-      <Nav className="ml-auto" navbar>
-        <NavItem className="App">
-          <NavLink href="/register" style={appLink}>Register</NavLink>
-        </NavItem>
+      navbarContent =
+      <Navbar className="navBar" color="primary" light expand="*" fixed={"top"}>
+          <NavbarBrand href="/login" style={homeButton}>Band Manager</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem className="App">
+                <NavLink href="/register" style={appLink}>Register</NavLink>
+              </NavItem>
 
-        <NavItem className="App">
-          <NavLink href="/login" style={appLink}>Log In</NavLink>
-        </NavItem>
-      </Nav>;
+              <NavItem className="App">
+                <NavLink href="/login" style={appLink}>Log In</NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>;
     }
 
     return (
       <div>
-        <Navbar className="navBar" color="primary" light expand="*" fixed={"top"}>
-          <NavbarBrand href="/" style={homeButton}>Band Manager</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            {navbarContent}
-          </Collapse>
-        </Navbar>
+        {navbarContent}
       </div>
     );
   }

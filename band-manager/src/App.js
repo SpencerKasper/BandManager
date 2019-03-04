@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import MyBands from './MyBands/MyBands';
 import './App.css';
 import AppNavBar from './AppComponents/AppNavBar';
-import {BrowserRouter, Route} from 'react-router-dom'
-import AppHeader from './AppComponents/AppHeader';
+import {BrowserRouter, Route} from 'react-router-dom';
 import Register from './Registration/Register';
 import Login from './Login/Login';
 import {AsyncStorage} from 'AsyncStorage';
@@ -24,7 +23,7 @@ class App extends Component {
     this.handleAuthentication = this.handleAuthentication.bind(this);
   }
 
-  componentDidMount(){
+  componentWillMount(){
     AsyncStorage.getItem("isLoggedIn").then((value) => this.setState({authenticated: value}));
   }
 
@@ -45,8 +44,8 @@ class App extends Component {
           </div>
 
           <div>
-            <Route path="/" component={Register}/>
-            <Route exact path='/mybands' component={MyBands} />
+            <Route exact path='/mybands' 
+              render={(props) => <MyBands authenticated={this.state.authenticated}/>}/>
             <Route path='/register' component={Register} />
             <Route path='/login' 
               render={(props) => <Login handleAuthentication={this.handleAuthentication}/>}/>
