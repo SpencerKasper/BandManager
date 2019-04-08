@@ -8,7 +8,8 @@ class AddABandForm extends Component {
       super(props);
 
       this.state = {
-          currentEmailAddress: ""
+          currentEmailAddress: "",
+          usersEmailed: []
       }
 
       this.addCurrentEmailToEmailAddressList = this.addCurrentEmailToEmailAddressList.bind(this);
@@ -26,6 +27,8 @@ class AddABandForm extends Component {
         alert("Please enter an email address first!");
       } else {
         this.props.handleBandMemberEmailAddress(this.state.currentEmailAddress);
+        var usersEmailed = this.state.usersEmailed;
+        usersEmailed.push(this.state.currentEmailAddress);
         this.setState({
           currentEmailAddress: ""
         })
@@ -46,7 +49,7 @@ class AddABandForm extends Component {
 
             <InputItemGroup
               labelName={"Band Member Email Address:"}
-              inputType={"dropdown"}
+              inputType={"text"}
               shareItemValue={this.setCurrentEmailAddress}
               placeholder={"Enter your band member's email address."}
               errorMessage={""}

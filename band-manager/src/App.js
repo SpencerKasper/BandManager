@@ -7,6 +7,8 @@ import Register from './Registration/Register';
 import Login from './Login/Login';
 import {AsyncStorage} from 'AsyncStorage';
 import SignOut from './Login/SignOut';
+import AudioUpload from './AudioUpload/AudioUpload';
+import AudioPlayback from './AudioPlayback/AudioPlayback';
 
 class App extends Component {
   constructor(props){
@@ -44,6 +46,8 @@ class App extends Component {
           </div>
 
           <div>
+            <Route path='/upload' component={AudioUpload}/>
+            <Route path='/playback' component={AudioPlayback}/>
             <Route exact path='/mybands' 
               render={(props) => <MyBands authenticated={this.state.authenticated}/>}/>
             <Route path='/register' component={Register} />

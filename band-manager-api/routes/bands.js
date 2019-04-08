@@ -25,7 +25,7 @@ router.get('/:bandName/:userName',function(req, res){
 // Add a band
 router.post('/', function(req, res){
     var collection = db.get('Bands');
-
+    console.log(JSON.stringify(req.body));
     collection.findOne({bandName: req.body.band.bandName}, function(err,band){
         if(err) throw err;
 

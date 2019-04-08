@@ -32,8 +32,7 @@ router.get('/:userName/:password',function(req, res){
             if(user.password === req.params.password){
                 var validUser = {
                     validUser: true,
-                    userName: req.params.userName,
-                    fullName: user.firstName + " " + user.lastName
+                    user: user
                 }
                 res.json(validUser);
             } else {

@@ -38,8 +38,8 @@ class Login extends React.Component {
       .then(response => {
         if(response.data.validUser == true){
           AsyncStorage.setItem("isLoggedIn", true);
-          AsyncStorage.setItem("loggedInUsername", response.data.userName);
-          AsyncStorage.setItem("loggedInUserFullName", response.data.fullName);
+          AsyncStorage.setItem("loggedInUsername", response.data.user.userName);
+          AsyncStorage.setItem("loggedInUserFullName", response.data.user.firstName + " " + response.data.user.lastName);
           this.props.handleAuthentication(true);
           window.location.href = "http://localhost:3001/mybands";
         } else {

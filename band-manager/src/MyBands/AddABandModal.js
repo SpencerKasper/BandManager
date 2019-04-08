@@ -3,33 +3,54 @@ import AppHeader from '../AppComponents/AppHeader';
 import BandList from './BandList';
 import AppModal from '../AppComponents/AppModal';
 import AddABandForm from './AddABandForm';
+import {AsyncStorage} from 'AsyncStorage';
+import Axios from 'axios';
 
 class AddABandModal extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      bandName: "",
-      bandMemberEmails: []
+      band: {
+        band:{
+        bandName: "",
+        bandMemberEmails: [],
+        bandOwner: {},
+        members: []
+      }
+    }
     }
 
+    this.addBandFunction = this.addBandFunction.bind(this);
     this.handleBandName = this.handleBandName.bind(this);
     this.handleBandMemberEmailAddress = this.handleBandMemberEmailAddress.bind(this);
   }
 
+  addBandFunction(){
+    Axios.post("http://localhost:3000/bands", this.state.band)
+        .then(response => {
+
+        })
+  }
+
   handleBandName(bandName){
+    var band = this.state.band;
+    band.bandName = bandName;
+
     this.setState({
-        bandName: bandName
+        band: band
+    }, () => {
+        alert(JSON.stringify(this.state.band));
     })
   }
 
   handleBandMemberEmailAddress(emailAddress){
-    var bandMemberEmailsList = this.state.bandMemberEmails;
-    bandMemberEmailsList.push(emailAddress);
+    var band = this.state.band;
+    band.bandMemberEmails.push(emailAddress);
     this.setState({
-        bandMemberEmails: bandMemberEmailsList
+        band: band
     }, () => {
-        alert(this.state.bandMemberEmails);
+        alert(JSON.stringify(this.state.band));
     })
   }
 
@@ -41,6 +62,7 @@ class AddABandModal extends Component {
             modalTitle={"Add a Band"}
             submitButtonName={"Submit"}
             modalOpenButtonName={"Add a Band"}
+            submitFunction={this.addBandFunction}
             modalBody={
                 <AddABandForm handleBandName={this.handleBandName}
                     handleBandMemberEmailAddress={this.handleBandMemberEmailAddress}/>
