@@ -2,18 +2,19 @@ import React from 'react';
 import InputItemGroup from '../AppComponents/InputItemGroup';
 import { Form, Button } from 'reactstrap';
 import AppHeader from '../AppComponents/AppHeader';
-import {FilePond} from 'react-filepond';
+import {FilePond, registerPlugin} from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import './AudioUpload.css';
+import FilePondPluginFileMetadta from 'filepond-plugin-file-metadata';
 
 class AudioUpload extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-        songName: "",
-        artist: "",
-        genre: ""
+        songName: "song",
+        artist: "artist",
+        genre: "genre"
     };
 
     this.handleSongName = this.handleSongName.bind(this);

@@ -46,14 +46,17 @@ router.get('/:trackID/:bucketName', (req, res) => {
 })
 
 router.get('/GetAllTrackIDs', (req, res) => {
-    console.log("start");
-    try{
-        
-    } catch(err){
-        console.log(err);
-    }
-    console.log("next");
+    let bucket = new mongodb.GridFSBucket(db, {
+        bucketName: "track"
+    });
 
+    const trackIDs = [];
+    
+    bucket.find().forEach(file => {
+        trackIDs.push(file._id);
+    }, () => {
+        return res.status(201).json({ trackIDs: trackIDs});
+    });
 })
 
 router.post('/:name', (req, res) => {
