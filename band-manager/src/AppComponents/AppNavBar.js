@@ -67,6 +67,12 @@ class AppNavBar extends Component {
               <p style={appLink}>Logged in as {this.state.loggedInUsername}</p>
             </NavItem>
             <NavItem className="App">
+              <NavLink href="/upload" style={appLink}>Upload</NavLink>
+            </NavItem>
+            <NavItem className="App">
+              <NavLink href="/playback" style={appLink}>Audio Player</NavLink>
+            </NavItem>
+            <NavItem className="App">
               <NavLink href="/signOut" style={appLink}>Sign Out</NavLink>
             </NavItem>
           </Nav>

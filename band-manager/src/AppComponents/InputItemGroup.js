@@ -1,13 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import ErrorMessage from '../Error/ErrorMessage';
-
-const errorStyle = {
-    color: "red",
-    fontWeight: "bold",
-    fontSize: "12px",
-    textAlign: "center"
-};
+import { FormGroup, Label, Input } from 'reactstrap';
 
 class InputItemGroup extends React.Component{
     constructor(props){
@@ -42,6 +34,9 @@ class InputItemGroup extends React.Component{
     render(){
         return(
             <FormGroup>
+                <div>
+                    {this.props.errorMessage}
+                </div>
                 <Label for={this.state.labelName}>{this.state.labelName}</Label>
                 <Input id={this.state.labelName} 
                     name={this.state.labelName}
@@ -49,9 +44,6 @@ class InputItemGroup extends React.Component{
                     placeholder={this.state.placeholder}
                     onBlur={this.accessItem}
                     />
-                <div>
-                    <p style={errorStyle}>{this.state.errorMessage}</p>
-                </div>
             </FormGroup>
         );
     }

@@ -38,7 +38,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div>
+        <div className="flex-wrapper">
           <div>
             <AppNavBar 
               loggedInUserName={this.state.loggedInUserName}
@@ -55,6 +55,8 @@ class App extends Component {
               render={(props) => <Login handleAuthentication={this.handleAuthentication}/>}/>
             <Route path='/signOut' component={SignOut} />
           </div>
+
+          <footer className="AppFooter">A Spencer Kasper Music Technology Minor Capstone Project</footer>
         </div>
       </BrowserRouter>
     );

@@ -45,21 +45,39 @@ router.get('/:trackID/:bucketName', (req, res) => {
     });
 })
 
-router.get('/GetAllTrackIDs', (req, res) => {
-    console.log("start");
-    try{
-        
-    } catch(err){
-        console.log(err);
-    }
-    console.log("next");
+router.get('/GetAllTracks', (req, res) => {
+    let bucket = new mongodb.GridFSBucket(db, {
+        bucketName: "track"
+    });
 
+    const files = [];
+    
+    bucket.find().forEach(file => {
+        files.push(file);
+    }, () => {
+        return res.status(201).json({ tracks: files});
+    });
 })
 
-router.post('/:name', (req, res) => {
+router.get('/:bucketName', (req, res) => {
+    let bucket = new mongodb.GridFSBucket(db, {
+        bucketName: req.params.bucketName
+    });
+
+    const tracks = [];
+    
+    bucket.find().forEach(file => {
+        tracks.push(file);
+    }, () => {
+        return res.status(201).json({ tracks: tracks});
+    });
+})
+
+router.post('/:name/:band', (req, res) => {
     const storage = multer.memoryStorage()
     const upload = multer({ storage: storage, limits: { fields: 1, fileSize: 6000000, files: 1, parts: 2 }});
-    upload.single('track')(req, res, (err) => {
+
+    upload.single("track")(req, res, (err) => {
       if (err) {
         console.log(err);
         return res.status(400).json({ message: "Upload Request Validation Failed" });
@@ -75,7 +93,7 @@ router.post('/:name', (req, res) => {
       readableTrackStream.push(null);
   
       let bucket = new mongodb.GridFSBucket(db, {
-        bucketName: 'track'
+        bucketName: req.params.band
       });
   
       let uploadStream = bucket.openUploadStream(trackName);
