@@ -50,7 +50,7 @@ buildPlaylist(URL, track){
 
 buildAudioPlayers(){
     const audioPlayers = [];
-    const bucketName = "Elise and the Police";
+    const bucketName = "F I Z Z";
 
     Axios.get("http://localhost:3000/mediaHandler/" + bucketName)
         .then(response => {

@@ -9,6 +9,7 @@ import {AsyncStorage} from 'AsyncStorage';
 import SignOut from './Login/SignOut';
 import AudioUpload from './AudioUpload/AudioUpload';
 import AudioPlayback from './AudioPlayback/AudioPlayback';
+import LandingPage from './LandingPage/LandingPage';
 
 class App extends Component {
   constructor(props){
@@ -38,14 +39,15 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className="flex-wrapper">
+        <div>
           <div>
             <AppNavBar 
               loggedInUserName={this.state.loggedInUserName}
               isAuthenticated={this.state.authenticated}/>
           </div>
 
-          <div>
+          <div className="flex-wrapper">
+            <Route exact path="/" component={LandingPage} />
             <Route path='/upload' component={AudioUpload}/>
             <Route path='/playback' component={AudioPlayback}/>
             <Route exact path='/mybands' 

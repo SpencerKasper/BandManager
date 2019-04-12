@@ -7,6 +7,9 @@ import 'filepond/dist/filepond.min.css';
 import './AudioUpload.css';
 import FilePondPluginFileMetadata from 'filepond-plugin-file-metadata';
 import ErrorMessage from '../Error/ErrorMessage';
+import Axios from 'axios';
+import 'react-dropzone-uploader/dist/styles.css';
+import Dropzone from 'react-dropzone-uploader';
 
 registerPlugin(FilePondPluginFileMetadata);
 
@@ -20,17 +23,32 @@ class AudioUpload extends React.Component {
         genre: "genre",
         uploadURL: "",
         filepond: [],
-        errorMessage: []
+        errorMessage: [],
+        files: []
     };
 
     this.setUploadURL = this.setUploadURL.bind(this);
     this.handleSongName = this.handleSongName.bind(this);
     this.handleArtist = this.handleArtist.bind(this);
     this.handleGenre = this.handleGenre.bind(this);
+    this.setMetadata = this.setMetadata.bind(this);
+    this.handleInit = this.handleInit.bind(this);
 }
 
-componentDidMount(){
-   this.setUploadURL();
+setMetadata(){
+    const trackID = "5cacf1bf497bc34b04122328";
+
+    Axios.post("http://localhost:3000/metadataHandler/" + trackID, {
+        "songName": this.state.songName,
+        "bandName": this.state.artist,
+        "genre": this.state.genre
+    }).then(response => {
+        alert("Added item");
+    })
+}
+
+handleInit(){
+    console.log("File pond instance has been initialized", this.pond);
 }
 
 /*
@@ -42,63 +60,86 @@ setFilePondObject(bFromSetArtist){
     const bHasArtist = this.state.artist !== "" ? true : false;
 
     if(bHasSongName && bHasArtist){
+        const getUploadParams = ({meta}) => {
+            alert(this.state.uploadURL);
+            return {
+                url: this.state.uploadURL
+            }
+        }
+    
+        const handleChangeStatus = ({meta, file}, status) => {
+            console.log(status, meta, file);
+        }
+    
+        const handleSubmit = (files, allFiles) => {
+            console.log(files.map(f => f.meta));
+            allFiles.forEach(f => f.remove());
+        }
+
         this.setState({
             filepond: [
                     <FilePond 
                         key="1"
+                        ref={ref => this.pond = ref}
                         name={"track"} 
-                        server={this.state.uploadURL}
-                        />
+                        server={{
+                            process: this.state.uploadURL
+                        }}
+                        oninit={() => this.handleInit()}
+                        />,
+                        <Dropzone 
+                            getUploadParams={getUploadParams}
+                            onChangeStatus={handleChangeStatus}
+                            onSubmit={handleSubmit}/>
             ],
-            errorMessage: []
+            errorMessage: []   
         }, () => {
-            this.setUploadURL();
+            
         })
-    } else {
+    } else if(!bHasSongName && !bFromSetArtist){
         // Show error if we don't have a song name yet.
-        if(!bHasSongName && !bFromSetArtist){
-            this.setState({
-                filepond: [],
-                errorMessage: [
-                    <div>
-                        <ErrorMessage 
-                            errorMessage="You must enter a song name to continue to mp3 upload." 
-                            key={1}/>
-                            
-                    </div>
-                ]
-            });
-        }
+        this.setState({
+            filepond: [],
+            errorMessage: [
+                <div>
+                    <ErrorMessage 
+                        errorMessage="You must enter a song name to continue to mp3 upload." 
+                        key={1}/>    
+                </div>
+            ]
+        });
+    }
 
-        // Show error for when songName has value, but artist doesn't
-        else if(bHasSongName && bFromSetArtist && !bHasArtist){
-            this.setState({
-                filepond: [],
-                errorMessage: [
-                    <div>
-                        <ErrorMessage 
-                            errorMessage="You must enter artist to continue to mp3 upload." 
-                            key={1}/>
-                    </div>
-                ]
-            });
-        }
+    // Show error for when songName has value, but artist doesn't
+    else if(bHasSongName && bFromSetArtist && !bHasArtist){
+        this.setState({
+            filepond: [],
+            errorMessage: [
+                <div>
+                    <ErrorMessage 
+                        errorMessage="You must enter artist to continue to mp3 upload." 
+                        key={1}/>
+                </div>
+            ]
+        });
+    }
 
-        else {
-            this.setState({
-                errorMessage: []
-            })
-        }
+    else {
+        this.setState({
+            errorMessage: []
+        })
     }
 }
 
-setUploadURL(){
+setUploadURL(bFromSetArtist){
     const baseURL = "http://localhost:3000/mediaHandler/";
     const songFileName = this.state.songName;
     const bandName = this.state.artist;
 
     this.setState({
         uploadURL: baseURL + songFileName + "/" + bandName
+    }, () => {
+        this.setFilePondObject(bFromSetArtist);
     });
 }
 
@@ -106,7 +147,7 @@ setUploadURL(){
       this.setState({
         songName: songName
       }, () => {
-          this.setFilePondObject(false);
+        this.setUploadURL(false);
       })
   }
 
@@ -114,7 +155,7 @@ setUploadURL(){
       this.setState({
           artist: artist
       }, () => {
-          this.setFilePondObject(true);
+          this.setUploadURL(true);
       })
   }
 

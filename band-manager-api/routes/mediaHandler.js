@@ -7,6 +7,7 @@ const ObjectID = require('mongodb').ObjectID;
 const {Readable} = require('stream');
 const assert = require('assert');
 const multer = require('multer');
+const metadataDB = monk("localhost:27017/band-manager-metadata");
 let db;
 
 mongodb.MongoClient.connect('mongodb://localhost:27017', (err, client) => {
@@ -73,11 +74,12 @@ router.get('/:bucketName', (req, res) => {
     });
 })
 
+// Add a track to a band's database
 router.post('/:name/:band', (req, res) => {
     const storage = multer.memoryStorage()
     const upload = multer({ storage: storage, limits: { fields: 1, fileSize: 6000000, files: 1, parts: 2 }});
 
-    upload.single("track")(req, res, (err) => {
+    upload.single("file")(req, res, (err) => {
       if (err) {
         console.log(err);
         return res.status(400).json({ message: "Upload Request Validation Failed" });
@@ -104,8 +106,8 @@ router.post('/:name/:band', (req, res) => {
         return res.status(500).json({ message: "Error uploading file" });
       });
   
-      uploadStream.on('finish', () => {
-        return res.status(201).json({ message: "File uploaded successfully, stored under Mongo ObjectID: " + id , trackID: id});
+      uploadStream.on('finish', () => {  
+        return res.status(201).json({trackID: id});
       });
     });
   });

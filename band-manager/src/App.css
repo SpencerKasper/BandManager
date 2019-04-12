@@ -19,7 +19,7 @@
 
 .flex-wrapper {
   display:flex;
-  min-height: 100vh;
+  min-height: 83vh;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -30,9 +30,15 @@
   text-align:center;
   line-height: 70px;
   height: 70px;
-  margin-top: 50px;
   font-size: 12px;
   font-weight: bold;
+}
+
+.AppGreeting {
+  padding: 20px;
+  color: white;
+  background-color: #007bff;
+  font-size: 20px;
 }
 
 .App-link {

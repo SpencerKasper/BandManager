@@ -5,6 +5,7 @@ import '../App.css';
 import Axios from 'axios';
 import {AsyncStorage} from 'AsyncStorage';
 import AppHeader from '../AppComponents/AppHeader';
+import ErrorMessage from '../Error/ErrorMessage';
 
 const loggedInText = {
   color: "white"
@@ -18,7 +19,8 @@ class Login extends React.Component {
       loggedIn: false,
       loggedInUserName: "",
       userName: "",
-      password: ""
+      password: "",
+      errorMessage: []
     };
 
     this.handlePassword = this.handlePassword.bind(this);
@@ -43,7 +45,13 @@ class Login extends React.Component {
           this.props.handleAuthentication(true);
           window.location.href = "http://localhost:3001/mybands";
         } else {
-          alert("The user name and password cannot be determined to be valid.");
+          this.setState({
+            errorMessage: [
+              <div>
+                <ErrorMessage errorMessage="The user name and password cannot be determined to be valid." />
+              </div>
+            ]
+          })
         }
       })
   }
@@ -65,6 +73,7 @@ class Login extends React.Component {
       <div>
         <AppHeader 
           title={"Log In"}/>
+        {this.state.errorMessage}
         <div>
           <p>
             Please enter your info below to log in.  If you don't have an account, click the link below to sign up!

@@ -11,6 +11,8 @@ import {
   Button} from 'reactstrap';
 import {AsyncStorage} from 'AsyncStorage';
 import AppHeader from './AppHeader';
+import AppGreeting from './AppGreeting';
+import AppGeneralGreeting from './AppGeneralGreeting';
 
   const appLink = {
     color: "white",
@@ -55,17 +57,12 @@ class AppNavBar extends Component {
 
     if(this.props.isAuthenticated === true || this.props.isAuthenticated === "true") {
       navbarContent =
-      <Navbar className="navBar" color="primary" light expand="*" fixed={"top"}>
+      <div>
+      <Navbar className="navBar" color="primary" light expand="md">
           <NavbarBrand href="/myBands" style={homeButton}>Band Manager</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <NavItem className="App">
-              <p style={appLink}>Welcome back, {this.state.loggedInFullName}!</p>
-            </NavItem>
-            <NavItem className="App">
-              <p style={appLink}>Logged in as {this.state.loggedInUsername}</p>
-            </NavItem>
             <NavItem className="App">
               <NavLink href="/upload" style={appLink}>Upload</NavLink>
             </NavItem>
@@ -77,10 +74,13 @@ class AppNavBar extends Component {
             </NavItem>
           </Nav>
         </Collapse>
-      </Navbar>;
+      </Navbar>
+      <AppGreeting userName={this.state.loggedInUsername} fullName={this.state.loggedInFullName}/>
+      </div>;
     } else {
       navbarContent =
-      <Navbar className="navBar" color="primary" light expand="*" fixed={"top"}>
+      <div>
+      <Navbar className="navBar" color="primary" light expand="md">
           <NavbarBrand href="/login" style={homeButton}>Band Manager</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -94,7 +94,9 @@ class AppNavBar extends Component {
               </NavItem>
             </Nav>
           </Collapse>
-        </Navbar>;
+        </Navbar>
+        <AppGeneralGreeting />
+        </div>;
     }
 
     return (
