@@ -1,3 +1,8 @@
 .player {
     padding: 10px;
 }
+
+.SongContainer {
+    padding-right: 25%;
+    padding-left: 25%;
+}

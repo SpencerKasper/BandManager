@@ -170,8 +170,9 @@ setUploadURL(bFromSetArtist){
       <div>
         <AppHeader title="Audio Upload"/>
         {this.state.errorMessage}
-        <Form>
+        <Form className="AudioUploadForm">
             <InputItemGroup
+                overrideClass="InputItem"
                 labelName={"Song Name:"}
                 inputType={"text"}
                 placeholder={"Enter your song name here."}
@@ -180,6 +181,7 @@ setUploadURL(bFromSetArtist){
             />
 
             <InputItemGroup
+                overrideClass="InputItem"
                 labelName={"Artist:"}
                 inputType={"text"}
                 placeholder={"Enter artist here."}
@@ -187,13 +189,16 @@ setUploadURL(bFromSetArtist){
                 shareItemValue={this.handleArtist}
             />
 
+            <div>
             <InputItemGroup
+                overrideClass="InputItem"
                 labelName={"Genre:"}
                 inputType={"text"}
                 placeholder={"Enter the genre of your song here."}
                 errorMessage={""}
                 shareItemValue={this.handleGenre}
             />
+            </div>
         </Form>
 
         {this.state.filepond}

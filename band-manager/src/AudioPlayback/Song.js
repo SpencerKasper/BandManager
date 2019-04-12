@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Container, Row, Col} from 'reactstrap';
+import './AudioPlayback.css';
 
 class Song extends Component {
   render() {
@@ -7,7 +8,7 @@ class Song extends Component {
     const album = this.props.album;
 
     return (
-      <div>
+      <div className="SongContainer">
         <Container>
             <Row>
                 <Col>

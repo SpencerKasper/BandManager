@@ -33,7 +33,7 @@ class InputItemGroup extends React.Component{
 
     render(){
         return(
-            <FormGroup>
+            <FormGroup style={{paddingLeft: "25%", paddingRight: "25%", textAlign: "center"}}>
                 <div>
                     {this.props.errorMessage}
                 </div>
@@ -43,6 +43,7 @@ class InputItemGroup extends React.Component{
                     type={this.state.inputType}
                     placeholder={this.state.placeholder}
                     onBlur={this.accessItem}
+                    className={this.props.overrideClass}
                     />
             </FormGroup>
         );
