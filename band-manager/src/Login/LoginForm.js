@@ -25,11 +25,11 @@ class LoginForm extends Component {
               errorMessage={""}
             />
 
-            <FormGroup>
+            <FormGroup style={{paddingLeft: "25%", paddingRight: "25%"}}>
               <Button onClick={this.props.handleLogIn}>Log In</Button>
             </FormGroup>
 
-            <FormGroup>
+            <FormGroup style={{paddingLeft: "25%", paddingRight: "25%", textAlign: "center"}}>
                 <a href="/register">Don't have an account? Click here!</a>
             </FormGroup>
         </Form>

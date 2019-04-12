@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
+import ErrorMessage from '../Error/ErrorMessage';
 
 class InputItemGroup extends React.Component{
     constructor(props){
@@ -9,7 +10,7 @@ class InputItemGroup extends React.Component{
             labelName: this.props.labelName,
             inputType: this.props.inputType,
             placeholder: this.props.placeholder,
-            errorMessage: this.props.errorMessage,
+            errorMessage: [],
             itemValue: this.props.itemValue
         }
 
@@ -19,7 +20,7 @@ class InputItemGroup extends React.Component{
 
     setErrorValue(errorValue){
         this.setState({
-          errorMessage: errorValue  
+          errorMessage: <ErrorMessage errorMessage={errorValue} />
         })
     }
 
@@ -35,7 +36,7 @@ class InputItemGroup extends React.Component{
         return(
             <FormGroup style={{paddingLeft: "25%", paddingRight: "25%", textAlign: "center"}}>
                 <div>
-                    {this.props.errorMessage}
+                    {this.state.errorMessage}
                 </div>
                 <Label for={this.state.labelName}>{this.state.labelName}</Label>
                 <Input id={this.state.labelName} 
