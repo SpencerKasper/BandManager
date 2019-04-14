@@ -1,3 +1,5 @@
 # exclude everything in node modules folder
 band-manager/node_modules/*
 band-manager-api/node_modules/*
+band-manager-api/.env
+band-manager/.env

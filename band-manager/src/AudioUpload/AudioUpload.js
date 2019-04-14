@@ -10,6 +10,7 @@ import ErrorMessage from '../Error/ErrorMessage';
 import Axios from 'axios';
 import 'react-dropzone-uploader/dist/styles.css';
 import Dropzone from 'react-dropzone-uploader';
+import {Alert} from 'reactstrap';
 
 registerPlugin(FilePondPluginFileMetadata);
 
@@ -23,7 +24,11 @@ class AudioUpload extends React.Component {
         genre: "genre",
         uploadURL: "",
         filepond: [],
-        errorMessage: [],
+        errorMessage: [
+            <Alert className="InitialWarning" color="warning">
+                Enter a song name and an artist and we will take care of the file for you!
+            </Alert>
+        ],
         files: []
     };
 

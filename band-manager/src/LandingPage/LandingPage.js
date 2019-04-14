@@ -16,7 +16,7 @@ const items = [
         caption: 'Handles .mp3 and a few other file types'
     },
     {
-        src: require("../Content/EliseandthePolice.jpg"),
+        src: require("../Content/drum-photo.jpg"),
         altText: 'Slide 3 Missing',
         captionHeader: 'Upcoming Features',
         caption: 'Band Calendar, Stem Playback, File Management, Email Practice Reminders'
@@ -103,6 +103,19 @@ class LandingPage extends Component {
                 <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
                 <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />    
             </Carousel>
+        </div>
+        <div className="InfoContainer">
+                <Row>
+                    <Col className="InfoBlock">
+                        Item 1
+                    </Col>
+                    <Col className="InfoBlock">
+                        Item 2
+                    </Col>
+                    <Col className="InfoBlock">
+                        Item 3
+                    </Col>
+                </Row>
         </div>
       </div>
     );

@@ -2,6 +2,15 @@
     text-align:center;
 }
 
+.InfoContainer {
+    background-color: white;
+}
+
 .LandingPage {
     background-color: #929292;
+}
+
+.InfoBlock {
+    text-align: center;
+    padding: 90px;
 }

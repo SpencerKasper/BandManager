@@ -59,7 +59,7 @@ class AppNavBar extends Component {
       navbarContent =
       <div>
       <Navbar className="navBar" color="primary" light expand="md">
-          <NavbarBrand href="/myBands" style={homeButton}>Band Manager</NavbarBrand>
+          <NavbarBrand href="/" style={homeButton}>Band Manager</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
@@ -81,7 +81,7 @@ class AppNavBar extends Component {
       navbarContent =
       <div>
       <Navbar className="navBar" color="primary" light expand="md">
-          <NavbarBrand href="/login" style={homeButton}>Band Manager</NavbarBrand>
+          <NavbarBrand href="/" style={homeButton}>Band Manager</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
