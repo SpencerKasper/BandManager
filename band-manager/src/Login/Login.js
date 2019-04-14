@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import LoginForm from './LoginForm';
 import '../App.css';
 import Axios from 'axios';
 import {AsyncStorage} from 'AsyncStorage';
 import AppHeader from '../AppComponents/AppHeader';
 import ErrorMessage from '../Error/ErrorMessage';
+import URLHelper from '../Helpers/URLHelper';
 
 const loggedInText = {
   color: "white"
@@ -20,13 +20,34 @@ class Login extends React.Component {
       loggedInUserName: "",
       userName: "",
       password: "",
-      errorMessage: []
+      errorMessage: [],
+      usersLoginURL: "",
+      redirectURL: ""
     };
 
+    this.setRedirectURL = this.setRedirectURL.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
     this.handleUserName = this.handleUserName.bind(this);
     this.logIn = this.logIn.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.setLoginURLState = this.setLoginURLState.bind(this);
+  }
+
+  setLoginURLState(URL){
+    this.setState({
+      usersLoginURL: URL
+    });
+  }
+
+  setRedirectURL(URL){
+    this.setState({
+      redirectURL: URL
+    })
+  }
+
+  componentDidMount(){
+    URLHelper.buildRedirectURL("mybands", null, this.setRedirectURL);
+    URLHelper.buildAPIURL("users", null, this.setLoginURLState);
   }
 
   toggle() {
@@ -36,14 +57,21 @@ class Login extends React.Component {
   }
 
   logIn(){
-    Axios.get("http://localhost:3000/users/" + this.state.userName + "/" + this.state.password)
+    var validateLoginURL = this.state.usersLoginURL;
+
+    validateLoginURL = validateLoginURL + "/" + this.state.userName + "/" + this.state.password;
+
+    this.setState({
+      usersLoginURL: validateLoginURL
+    }, () => {
+      Axios.get(this.state.usersLoginURL)
       .then(response => {
         if(response.data.validUser == true){
           AsyncStorage.setItem("isLoggedIn", true);
           AsyncStorage.setItem("loggedInUsername", response.data.user.userName);
           AsyncStorage.setItem("loggedInUserFullName", response.data.user.firstName + " " + response.data.user.lastName);
           this.props.handleAuthentication(true);
-          window.location.href = "http://localhost:3001/mybands";
+          window.location.href = this.state.redirectURL;
         } else {
           this.setState({
             errorMessage: [
@@ -54,6 +82,7 @@ class Login extends React.Component {
           })
         }
       })
+    })
   }
 
   handleUserName(userName){

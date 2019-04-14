@@ -19,9 +19,15 @@ class InputItemGroup extends React.Component{
     }
 
     setErrorValue(errorValue){
-        this.setState({
-          errorMessage: <ErrorMessage errorMessage={errorValue} />
-        })
+        if(errorValue !== ""){
+            this.setState({
+                errorMessage: <ErrorMessage errorMessage={errorValue} />
+            })
+        } else {
+            this.setState({
+                errorMessage: []
+            })
+        }
     }
 
     accessItem(event){

@@ -4,6 +4,7 @@ import Axios from 'axios';
 import './Register.css';
 import {Redirect} from 'react-router-dom';
 import AppHeader from '../AppComponents/AppHeader';
+import URLHelper from '../Helpers/URLHelper';
 
 class Register extends Component {
     constructor(props) {
@@ -23,9 +24,13 @@ class Register extends Component {
             errorMessages: [],
             validatePassword: false,
             validUser: false,
-            redirect: false
+            redirect: false,
+            registerUserURL: "",
+            loginRedirectURL: ""
         }
     
+        this.setLoginRedirectURL = this.setLoginRedirectURL.bind(this);
+        this.setRegisterURL = this.setRegisterURL.bind(this);
         this.handleUserName = this.handleUserName.bind(this);
         this.handleFirstName = this.handleFirstName.bind(this);
         this.handleLastName= this.handleLastName.bind(this);
@@ -35,8 +40,25 @@ class Register extends Component {
         this.handlePassword1 = this.handlePassword1.bind(this);
         this.handlePassword2 = this.handlePassword2.bind(this);
         this.validatePasswordsAndBuildMessages = this.validatePasswordsAndBuildMessages.bind(this);
-        this.validateUser = this.validateUser.bind(this);
+        this.validateAndRegisterUser = this.validateAndRegisterUser.bind(this);
         this.registerUser = this.registerUser.bind(this);
+    }
+
+    componentDidMount(){
+        URLHelper.buildAPIURL("users", null, this.setRegisterURL);
+        URLHelper.buildRedirectURL("login", null, this.setLoginRedirectURL);
+    }
+
+    setRegisterURL(URL){
+        this.setState({
+            registerUserURL: URL
+        })
+    }
+
+    setLoginRedirectURL(URL){
+        this.setState({
+            loginRedirectURL: URL
+        })
     }
     
       handleUserName(userName){
@@ -116,11 +138,11 @@ class Register extends Component {
             passwordsMatch: passwordsMatch,
             validUser: validUser
         }, () => {
-            // SPENCER TO DO: Add error messages to top
+            this.registerUser();
         })
       }
     
-      validateUser(){
+      validateAndRegisterUser(){
         var validUser = true;
         var messages = [];
     
@@ -148,7 +170,7 @@ class Register extends Component {
             validUser = false;
             messages.push("You must enter a birthday!");
         }
-    
+        alert(messages);
         this.setState({
             errors: messages
         }, () => {
@@ -157,10 +179,8 @@ class Register extends Component {
       }
     
       registerUser(){
-        this.validateUser();
-    
         if(this.state.validUser){
-            Axios.post("http://localhost:3000/users", {
+            Axios.post(this.state.registerUserURL, {
                 "userName": this.state.userName,
                 "password": this.state.password1,
                 "firstName": this.state.firstName,
@@ -172,7 +192,7 @@ class Register extends Component {
                 if(response.data.message !== null && response.data.message != "undefined" && response.data.message !== undefined){
                     alert(response.data.message);
                 } else {
-                    window.location.href = "http://localhost:3001/login";
+                    window.location.href = this.state.loginRedirectURL;
                 }
             })
         }
@@ -202,7 +222,7 @@ class Register extends Component {
                     handleEmail={this.handleEmail}
                     handleBirthday={this.handleBirthday}
                     handlePhoneNumber={this.handlePhoneNumber}
-                    registerUser={this.registerUser}
+                    registerUser={this.validateAndRegisterUser}
                     />
                 </div>
           </div>

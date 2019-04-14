@@ -15,7 +15,6 @@ const errorStyle = {
 };
 
 class RegistrationForm extends Component {
-    //Add code here to set the state values of each of th form inputs
   constructor(props){
       super(props);
 
@@ -165,8 +164,6 @@ class RegistrationForm extends Component {
             if(this.state.password1Error == "" && this.state.password2Error == ""){
                 this.setState({
                     allowPasswordSubmit: true
-                }, () => {
-                    //alert(this.state.allowPasswordSubmit);
                 })
             }
         })
@@ -193,8 +190,6 @@ class RegistrationForm extends Component {
             if(this.state.password1Error == "" && this.state.password2Error == ""){
                 this.setState({
                     allowPasswordSubmit: true
-                }, () => {
-                    //alert(this.state.allowPasswordSubmit);
                 })
             }
         })
