@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import AppHeader from '../AppComponents/AppHeader';
 import BandList from './BandList';
 import AppModal from '../AppComponents/AppModal';
-import AddABandForm from './AddABandForm';
 import {AsyncStorage} from 'AsyncStorage';
+import AddABandForm from './AddABandForm';
 import Axios from 'axios';
 
 class AddABandModal extends Component {
@@ -64,8 +64,7 @@ class AddABandModal extends Component {
             modalOpenButtonName={"Add a Band"}
             submitFunction={this.addBandFunction}
             modalBody={
-                <AddABandForm handleBandName={this.handleBandName}
-                    handleBandMemberEmailAddress={this.handleBandMemberEmailAddress}/>
+                <AddABandForm />
             }/>
           <BandList />
         </div>

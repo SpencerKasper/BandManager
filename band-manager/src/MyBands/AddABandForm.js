@@ -1,64 +1,55 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import {Form} from 'reactstrap';
 import InputItemGroup from '../AppComponents/InputItemGroup';
-import '../Login/Login.css';
+import EmailListItem from '../AppComponents/EmailListItem';
 
 class AddABandForm extends Component {
-  constructor(props){
-      super(props);
+    constructor(props){
+        super(props);
 
-      this.state = {
-          currentEmailAddress: "",
-          usersEmailed: []
-      }
+        this.state = {
+            emailItems: [],
+            maxKey: 0
+        }
 
-      this.addCurrentEmailToEmailAddressList = this.addCurrentEmailToEmailAddressList.bind(this);
-      this.setCurrentEmailAddress = this.setCurrentEmailAddress.bind(this);
-  }
+        this.handleEmailAddresses = this.handleEmailAddresses.bind(this);
+        this.addEmailItem = this.addEmailItem.bind(this);
+    }
 
-  setCurrentEmailAddress(emailAddress){
-      this.setState({
-          currentEmailAddress: emailAddress
-      })
-  }
+    addEmailItem(emailAddress){
+        var emailItems = this.state.emailItems;
 
-  addCurrentEmailToEmailAddressList(){
-      if(this.state.currentEmailAddress === ""){
-        alert("Please enter an email address first!");
-      } else {
-        this.props.handleBandMemberEmailAddress(this.state.currentEmailAddress);
-        var usersEmailed = this.state.usersEmailed;
-        usersEmailed.push(this.state.currentEmailAddress);
+        emailItems.push(<EmailListItem emailAddress={emailAddress} key={this.state.maxKey + 1}/>);
+
         this.setState({
-          currentEmailAddress: ""
+            emailItems: emailItems
         })
-      }
-  }
-
+    }
   render() {
     return (
-      <div className="AddABandForm">
-        <Form>
-          <InputItemGroup
-                labelName={"Band Name:"}
-                inputType={"text"}
-                placeholder={"Enter your band name here."}
-                errorMessage={""}
-                shareItemValue={this.props.handleBandName}
-            />
+        <div className="AddABandFormContainer">
+            <Form>
+                <InputItemGroup
+                    labelName={"Band Name:"}
+                    inputType={"text"}
+                    placeholder={"Enter a unique band name."}
+                    errorMessage={""}
+                    shareItemValue={this.props.handleBandName}
+                />
 
-            <InputItemGroup
-              labelName={"Band Member Email Address:"}
-              inputType={"text"}
-              shareItemValue={this.setCurrentEmailAddress}
-              placeholder={"Enter your band member's email address."}
-              errorMessage={""}
-            />
+                <InputItemGroup
+                    labelName={"Band Member Email Address"}
+                    inputType={"text"}
+                    placeholder={"Enter a band member email address"}
+                    errorMessage={""}
+                    shareItemValue={this.props.handleEmailAddresses}
+                />
 
-            <Button onClick={this.addCurrentEmailToEmailAddressList}>Invite Band Member</Button>
-        </Form>
+                {this.state.emailItems}
+            </Form>
       </div>
     );
   }
 }
+
 export default AddABandForm;
