@@ -27,7 +27,7 @@ class RegistrationForm extends Component {
           lastNameError: "",
           email: "",
           emailError: "",
-          birthday: new Date(),
+          birthday: {},
           birthdayError: "",
           password1: "",
           password2: "",
