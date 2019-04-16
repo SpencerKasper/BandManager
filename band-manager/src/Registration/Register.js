@@ -170,7 +170,7 @@ class Register extends Component {
             validUser = false;
             messages.push("You must enter a birthday!");
         }
-        alert(messages);
+        
         this.setState({
             errors: messages
         }, () => {
