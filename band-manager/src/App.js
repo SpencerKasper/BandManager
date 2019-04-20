@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MyBands from './MyBands/MyBands';
 import './App.css';
 import AppNavBar from './AppComponents/AppNavBar';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Link, Redirect} from 'react-router-dom';
 import Register from './Registration/Register';
 import Login from './Login/Login';
 import {AsyncStorage} from 'AsyncStorage';
@@ -10,6 +10,29 @@ import SignOut from './Login/SignOut';
 import AudioUpload from './AudioUpload/AudioUpload';
 import AudioPlayback from './AudioPlayback/AudioPlayback';
 import LandingPage from './LandingPage/LandingPage';
+
+const auth = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    this.isAuthenticated = true;
+    setTimeout(cb, 100);
+  },
+  signout(cb){
+    this.isAuthenticated = false;
+    setTimeout(cb,100);
+  }
+}
+
+const Public = () => <h3>Public</h3>
+const Protected = () => <h3>Protected</h3>
+
+const PrivateRoute = ({component: Component, ...rest}) => (
+  <Route {...rest} render={(props) => (
+    auth.isAuthenticated === true
+      ? <Component {...props}/>
+      : <Redirect to='/login'/>
+  )}/>
+)
 
 class App extends Component {
   constructor(props){
@@ -47,6 +70,11 @@ class App extends Component {
           </div>
 
           <div className="flex-wrapper">
+            <ul>
+              <li><Link to="/public">Public Page</Link></li>
+              <li><Link to="/protected">Protected Page</Link></li>
+            </ul>
+            <Route path='/public' component={Public} />
             <Route exact path="/" component={LandingPage} />
             <Route path='/upload' component={AudioUpload}/>
             <Route path='/playback' component={AudioPlayback}/>
@@ -56,6 +84,7 @@ class App extends Component {
             <Route path='/login' 
               render={(props) => <Login handleAuthentication={this.handleAuthentication}/>}/>
             <Route path='/signOut' component={SignOut} />
+            <PrivateRoute path='/protected' component={Protected} />
           </div>
 
           <footer className="AppFooter">A Spencer Kasper Music Technology Minor Capstone Project</footer>
