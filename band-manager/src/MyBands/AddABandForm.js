@@ -12,7 +12,6 @@ class AddABandForm extends Component {
             maxKey: 0
         }
 
-        this.handleEmailAddresses = this.handleEmailAddresses.bind(this);
         this.addEmailItem = this.addEmailItem.bind(this);
     }
 
@@ -22,7 +21,10 @@ class AddABandForm extends Component {
         emailItems.push(<EmailListItem emailAddress={emailAddress} key={this.state.maxKey + 1}/>);
 
         this.setState({
-            emailItems: emailItems
+            emailItems,
+            maxKey: this.state.maxKey + 1
+        }, () => {
+            this.props.handleEmailAddresses(emailAddress);
         })
     }
   render() {
@@ -42,7 +44,8 @@ class AddABandForm extends Component {
                     inputType={"text"}
                     placeholder={"Enter a band member email address"}
                     errorMessage={""}
-                    shareItemValue={this.props.handleEmailAddresses}
+                    shareItemValue={this.addEmailItem}
+                    bClearInput={true}
                 />
 
                 {this.state.emailItems}
