@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import AppHeader from '../AppComponents/AppHeader';
-import BandList from './BandList';
 import AddABandModal from './AddABandModal';
+import CalendarGeneral from '../Calendar/CalendarGeneral';
 
 class MyBands extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      isLoggedIn: "",
       
     }
   }
@@ -22,7 +21,7 @@ class MyBands extends Component {
         </div>
         <div>
           <AddABandModal />
-          <BandList />
+          <CalendarGeneral />
         </div>
 
       </div>

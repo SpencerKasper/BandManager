@@ -28,12 +28,18 @@ router.post('/', function(req, res){
     
     collection.findOne({bandName: req.body.bandName}, function(err,band){
         if(err) throw err;
-        console.log(JSON.stringify(band));
-
+        
+        const returnItem = {};
+        
         if(band != null && band.bandName === req.body.bandName){
+            returnItem.errorMessage = "Error: Band with that name already exists.";
+            returnItem.valid = false;
+            returnItem.band = null;
+
             console.error("Error: Band with that name already exists.");
+            console.log(returnItem);
             res.status(200).send({
-                message: "Error: Band with that name already exists."
+                returnItem
             })
         } else {
             collection.insert({
@@ -42,8 +48,12 @@ router.post('/', function(req, res){
                 bandMemberEmailAddresses: req.body.bandMemberEmails
             }, function(err, band){
                 if(err) throw err;
+
+                returnItem.valid = true;
+                returnItem.errorMessage = "";
+                returnItem.band = band;
         
-                res.json(band);
+                res.json(returnItem);
             });
         }
         

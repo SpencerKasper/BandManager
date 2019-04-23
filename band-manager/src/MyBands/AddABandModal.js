@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import AppHeader from '../AppComponents/AppHeader';
-import BandList from './BandList';
 import AppModal from '../AppComponents/AppModal';
 import {AsyncStorage} from 'AsyncStorage';
 import AddABandForm from './AddABandForm';
@@ -41,10 +39,13 @@ class AddABandModal extends Component {
   }
 
   addBand(){
-    alert(JSON.stringify(this.state.band));
     Axios.post("http://localhost:3000/bands", this.state.band)
         .then(response => {
-          alert(JSON.stringify(response.data));
+          if(response.data.returnItem.valid){
+            alert(response.data.returnItem.band);
+          } else {
+            alert(response.data.returnItem.errorMessage);
+          }
         })
   }
 
@@ -76,7 +77,6 @@ class AddABandModal extends Component {
                   handleBandName={this.handleBandName}
                   handleEmailAddresses={this.handleBandMemberEmailAddress}/>
             }/>
-          <BandList />
         </div>
 
       </div>
