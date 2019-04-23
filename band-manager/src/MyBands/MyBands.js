@@ -85,15 +85,18 @@ class MyBands extends Component {
           <AppHeader
             title={"My Bands"}/>
         </div>
+        
         <div>
           <AddABandModal 
             updateList={this.addABandToOwnedBands}/>
-          <div>
+          <div className="OwnedBandsContainer">
             <h4 className="OwnedBandsTitle">Your Bands</h4>
-            <div>
+            <div className="BandListContainer">
               {this.state.ownedBandComponents}
             </div>
           </div>
+          <hr></hr>
+          <CalendarGeneral />
         </div>
 
       </div>

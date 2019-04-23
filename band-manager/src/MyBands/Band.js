@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Card, CardBody, CardTitle, Button, Row, Col} from 'reactstrap';
 import './MyBands.css';
+
 class Band extends Component {
   constructor(props){
     super(props);
@@ -15,15 +16,15 @@ class Band extends Component {
     const bandID = this.props.bandID;
 
     return (
-      <div className="BandContainer">
+      <div>
         <Card>
             <CardBody>
-                <Row>
+                <Row className="BandContainer">
                     <Col>
                         <CardTitle>{bandName}</CardTitle>
                     </Col>
                     <Col className="ViewCalendarButton">
-                        <Button>View {bandName + "'s"} Calendar</Button>
+                        <Button>View Calendar</Button>
                     </Col>
                 </Row>
             </CardBody>
