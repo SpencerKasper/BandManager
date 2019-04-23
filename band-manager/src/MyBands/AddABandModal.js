@@ -41,10 +41,11 @@ class AddABandModal extends Component {
   addBand(){
     Axios.post("http://localhost:3000/bands", this.state.band)
         .then(response => {
-          if(response.data.returnItem.valid){
-            alert(response.data.returnItem.band);
+          alert(JSON.stringify(response.data));
+          if(response.data.valid){
+            this.props.updateList(response.data.band);
           } else {
-            alert(response.data.returnItem.errorMessage);
+            alert(response.data.errorMessage);
           }
         })
   }
