@@ -11,6 +11,7 @@
     "filepond-plugin-file-metadata": "^1.0.6",
     "moment": "^2.24.0",
     "npm": "^6.8.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.2",
     "react-audio-player": "^0.11.0",
     "react-big-calendar": "^0.20.4",
