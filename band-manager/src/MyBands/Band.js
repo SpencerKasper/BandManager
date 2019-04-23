@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
-import AppHeader from '../AppComponents/AppHeader';
-
+import {Card, CardBody, CardTitle, Button, Row, Col} from 'reactstrap';
+import './MyBands.css';
 class Band extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      bands: []
+      
     }
   }
 
   render() {
     const bandName = this.props.bandName;
+    const bandID = this.props.bandID;
 
     return (
-      <div className="Band">
-        <AppHeader title={bandName}/>
-
-        {this.state.bands}
+      <div className="BandContainer">
+        <Card>
+            <CardBody>
+                <Row>
+                    <Col>
+                        <CardTitle>{bandName}</CardTitle>
+                    </Col>
+                    <Col className="ViewCalendarButton">
+                        <Button>View {bandName + "'s"} Calendar</Button>
+                    </Col>
+                </Row>
+            </CardBody>
+        </Card>
       </div>
     );
   }

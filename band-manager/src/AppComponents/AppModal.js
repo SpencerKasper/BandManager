@@ -15,6 +15,7 @@ class AppModal extends React.Component {
       openButtonLink: this.props.openButtonLink
     };
 
+    this.submit = this.submit.bind(this);
     this.toggle = this.toggle.bind(this);
   }
 
@@ -22,6 +23,13 @@ class AppModal extends React.Component {
     this.setState({
       modal: !this.state.modal
     });
+  }
+
+  submit() {
+    this.props.submitFunction();
+    this.setState({
+      modal: !this.state.modal
+    })
   }
 
   render() {
@@ -35,7 +43,7 @@ class AppModal extends React.Component {
             {this.props.modalBody}
           </ModalBody>
           <ModalFooter>
-            <Button color="success" onClick={this.props.submitFunction}>{this.props.submitButtonName}</Button>{' '}
+            <Button color="success" onClick={this.submit}>{this.props.submitButtonName}</Button>{' '}
             <Button color="danger" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>
