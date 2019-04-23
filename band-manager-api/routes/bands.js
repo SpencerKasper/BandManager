@@ -25,24 +25,35 @@ router.get('/:bandName/:userName',function(req, res){
 // Add a band
 router.post('/', function(req, res){
     var collection = db.get('Bands');
-    console.log(JSON.stringify(req.body));
-    collection.findOne({bandName: req.body.band.bandName}, function(err,band){
+    
+    collection.findOne({bandName: req.body.bandName}, function(err,band){
         if(err) throw err;
+        
+        const returnItem = {};
+        
+        if(band != null && band.bandName === req.body.bandName){
+            returnItem.errorMessage = "Error: Band with that name already exists.";
+            returnItem.valid = false;
+            returnItem.band = null;
 
-        if(band !== null && band.bandName === req.body.band.bandName){
             console.error("Error: Band with that name already exists.");
+            console.log(returnItem);
             res.status(200).send({
-                message: "Error: Band with that name already exists."
+                returnItem
             })
         } else {
             collection.insert({
-                bandName: req.body.band.bandName,
-                bandOwner: req.body.band.bandOwner,
-                members: req.body.band.members
+                bandName: req.body.bandName,
+                bandOwnerID: req.body.bandOwnerID,
+                bandMemberEmailAddresses: req.body.bandMemberEmails
             }, function(err, band){
                 if(err) throw err;
+
+                returnItem.valid = true;
+                returnItem.errorMessage = "";
+                returnItem.band = band;
         
-                res.json(band);
+                res.json(returnItem);
             });
         }
         

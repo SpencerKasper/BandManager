@@ -58,7 +58,7 @@ class Login extends React.Component {
 
   logIn(){
     var validateLoginURL = this.state.usersLoginURL;
-
+    
     validateLoginURL = validateLoginURL + "/" + this.state.userName + "/" + this.state.password;
 
     this.setState({
@@ -68,6 +68,7 @@ class Login extends React.Component {
       .then(response => {
         if(response.data.validUser == true){
           AsyncStorage.setItem("isLoggedIn", true);
+          AsyncStorage.setItem("loggedInUserID", response.data.user._id);
           AsyncStorage.setItem("loggedInUsername", response.data.user.userName);
           AsyncStorage.setItem("loggedInUserFullName", response.data.user.firstName + " " + response.data.user.lastName);
           this.props.handleAuthentication(true);
