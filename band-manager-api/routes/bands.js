@@ -13,12 +13,13 @@ router.get('/', function(req, res){
     });
 });
 
-// Get one band
-router.get('/:bandName/:userName',function(req, res){
-    var collection = db.get('User');
-    collection.findOne({userName: req.params.userName}, function(err,user){
+// Get all bands owned by a given user
+router.get('/:userID',function(req, res){
+    var collection = db.get('Bands');
+
+    collection.find({bandOwnerID: req.params.userID}, function(err,bands){
         if(err) throw err;
-        res.json(user);
+        res.json(bands);
     });
 });
 
