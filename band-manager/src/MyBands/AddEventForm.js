@@ -9,12 +9,16 @@ class AddEventForm extends Component {
         this.state = {
             eventName: "",
             eventStartDate: "",
-            eventStartTime: ""
+            eventStartTime: "",
+            eventEndDate: "",
+            eventEndTime: ""
         }
 
         this.accessEventName = this.accessEventName.bind(this);
         this.accessEventStartDate = this.accessEventStartDate.bind(this);
         this.accessEventStartTime = this.accessEventStartTime.bind(this);
+        this.accessEventEndDate = this.accessEventEndDate.bind(this);
+        this.accessEventEndTime = this.accessEventEndTime.bind(this);
     }
 
     accessEventName(event){
@@ -38,6 +42,22 @@ class AddEventForm extends Component {
             eventStartTime: event.target.value
         }, () => {
             this.props.shareEventStartTime(this.state.eventStartTime);
+        })
+    }
+
+    accessEventEndDate(event){
+        this.setState({
+            eventEndDate: event.target.value
+        }, () => {
+            this.props.shareEventEndDate(this.state.eventEndDate);
+        })
+    }
+
+    accessEventEndTime(event){
+        this.setState({
+            eventEndTime: event.target.value
+        }, () => {
+            this.props.shareEventEndTime(this.state.eventEndTime);
         })
     }
 
@@ -88,6 +108,7 @@ class AddEventForm extends Component {
                     <Input type="date"
                         name="endDate"
                         id="endDate"
+                        onBlur={this.accessEventEndDate}
                         placeholder="Enter the event's end date"/>
                 </FormGroup>
 
@@ -96,6 +117,7 @@ class AddEventForm extends Component {
                     <Input type="time"
                         name="endTime"
                         id="endTime"
+                        onBlur={this.accessEventEndTime}
                         placeholder="Enter the event's end time"/>
                 </FormGroup>
             </Form>

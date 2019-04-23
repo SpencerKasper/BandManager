@@ -34,6 +34,7 @@ class MyBands extends Component {
     this.buildOwnedBandsList = this.buildOwnedBandsList.bind(this);
     this.onEventResize = this.onEventResize.bind(this);
     this.onEventDrop = this.onEventDrop.bind(this);
+    this.addEventToCalendar = this.addEventToCalendar.bind(this);
   }
 
   componentDidMount(){
@@ -106,6 +107,16 @@ class MyBands extends Component {
     })
   };
 
+  addEventToCalendar(event){
+    var events = this.state.events;
+
+    events.push(event);
+
+    this.setState({
+      events
+    })
+  }
+
   render() {
     return (
       <div className="MyBands">
@@ -126,7 +137,8 @@ class MyBands extends Component {
           <hr></hr>
           <div>
             <h4 className="OwnedBandsTitle">Your Calendar</h4>
-            <AddEventModal />
+            <AddEventModal 
+              addEventToCalendar={this.addEventToCalendar}/>
             <CalendarGeneral 
               calendarLoadStartDate={new Date()}
               defaultView={"week"}

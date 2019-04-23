@@ -21,8 +21,11 @@ class AddEventModal extends Component {
     this.setEventName = this.setEventName.bind(this);
     this.setEventStartDate = this.setEventStartDate.bind(this);
     this.setEventStartTime = this.setEventStartTime.bind(this);
+    this.setEventEndDate = this.setEventEndDate.bind(this);
+    this.setEventEndTime = this.setEventEndTime.bind(this);
     this.tryBuildDateTime = this.tryBuildDateTime.bind(this);
-  }
+    this.addEvent = this.addEvent.bind(this);
+}
 
   setEventName(eventName){
       this.setState(state => {
@@ -49,6 +52,22 @@ class AddEventModal extends Component {
       })
   }
 
+  setEventEndDate(endDate){
+      this.setState(state => {
+          state.event.endDate = endDate;
+      }, () => {
+          this.tryBuildDateTime("end");
+      })
+  }
+
+  setEventEndTime(endTime){
+      this.setState(state => {
+          state.event.endTime = endTime;
+      }, () => {
+          this.tryBuildDateTime("end");
+      })
+  }
+
   tryBuildDateTime(sStartOrEnd){
     var date = "";
     var time = "";
@@ -71,11 +90,23 @@ class AddEventModal extends Component {
         if(this.state.event.endTime != undefined && this.state.event.endDate != undefined){
             date = this.state.event.endDate;
             time = this.state.event.endTime;
+
+            const dateTimeAttempt = date + " " + time;
+            const dateTime = new Date(dateTimeAttempt);
+        
+            this.setState(state => {
+                state.event.end = dateTime;
+            })
         } else {
             return;
         }
     }
 
+  }
+
+  addEvent(){
+    const event = this.state.event;
+    this.props.addEventToCalendar(event);
   }
 
   render() {
@@ -86,12 +117,14 @@ class AddEventModal extends Component {
             modalTitle={"Add an Event"}
             submitButtonName={"Submit"}
             modalOpenButtonName={"Add an Event"}
-            submitFunction={this.addBand}
+            submitFunction={this.addEvent}
             modalBody={
                 <AddEventForm 
                     shareEventName={this.setEventName}
                     shareEventStartDate={this.setEventStartDate}
-                    shareEventStartTime={this.setEventStartTime}/>
+                    shareEventStartTime={this.setEventStartTime}
+                    shareEventEndDate={this.setEventEndDate}
+                    shareEventEndTime={this.setEventEndTime}/>
             }/>
         </div>
 
