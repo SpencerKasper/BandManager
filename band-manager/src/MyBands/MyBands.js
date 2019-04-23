@@ -96,7 +96,10 @@ class MyBands extends Component {
             </div>
           </div>
           <hr></hr>
-          <CalendarGeneral />
+          <div>
+            <h4 className="OwnedBandsTitle">Your Calendar</h4>
+            <CalendarGeneral />
+          </div>
         </div>
 
       </div>

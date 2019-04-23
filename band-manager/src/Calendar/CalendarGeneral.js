@@ -12,17 +12,25 @@ const localizer = Calendar.momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Calendar);
 
 class CalendarGeneral extends Component {
-  state = {
-    events: [
-      {
-        start: new Date(),
-        end: new Date(moment().add(1, "hours")),
-        title: "Band Practice"
-      }
-    ]
-  };
+  constructor(props){
+      super(props);
 
-  onEventResize = (type, { event, start, end, allDay }) => {
+      this.state = {
+        events: [
+          {
+            start: new Date(),
+            end: new Date(moment().add(1, "hours")),
+            title: "Band Practice"
+          }
+        ]
+      };
+
+      this.onEventResize = this.onEventResize.bind(this);
+      this.onEventDrop = this.onEventDrop.bind(this);
+  }
+
+  onEventResize = (type, { event, start, end }) => {
+    alert("resize");
     this.setState(state => {
       state.events[0].start = start;
       state.events[0].end = end;
@@ -31,19 +39,27 @@ class CalendarGeneral extends Component {
   };
 
   onEventDrop = ({ event, start, end, allDay }) => {
-    console.log(start);
+    this.setState(state => {
+        state.events[0].start = start;
+        state.events[0].end = end;
+        return {events: state.events};
+    })
   };
 
   render() {
+    const calendarLoadStartDate = this.props.calendarLoadStartDate;
+    const defaultView = this.props.defaultView;
+    const calendarEvents = this.props.calendarEvents;
+
     return (
       <div className="CalendarGeneral">
         <DnDCalendar
-          defaultDate={new Date()}
-          defaultView="month"
-          events={this.state.events}
+          defaultDate={calendarLoadStartDate}
+          defaultView={defaultView}
+          events={calendarEvents}
           onEventDrop={this.onEventDrop}
           onEventResize={this.onEventResize}
-          resizable
+          resizable={true}
           localizer={localizer}
           style={{ height: "100vh" }}
         />
