@@ -7,6 +7,8 @@ import {AsyncStorage} from 'AsyncStorage';
 import URLHelper from '../Helpers/URLHelper';
 import Band from './Band';
 import'./MyBands.css';
+import moment from 'moment';
+import AddEventModal from './AddEventModal';
 
 class MyBands extends Component {
   constructor(props){
@@ -16,13 +18,22 @@ class MyBands extends Component {
       ownedBands: [],
       getOwnedBandsURL: "",
       userID: "",
-      ownedBandComponents: []
+      ownedBandComponents: [],
+      events: [
+        {
+          start: new Date(),
+          end: new Date(moment().add(1, "hours")),
+          title: "Band Practice"
+        }
+      ]
     }
 
     this.addABandToOwnedBands = this.addABandToOwnedBands.bind(this);
     this.setGetOwnedBandsURL = this.setGetOwnedBandsURL.bind(this);
     this.setOwnedBands = this.setOwnedBands.bind(this);
     this.buildOwnedBandsList = this.buildOwnedBandsList.bind(this);
+    this.onEventResize = this.onEventResize.bind(this);
+    this.onEventDrop = this.onEventDrop.bind(this);
   }
 
   componentDidMount(){
@@ -78,6 +89,23 @@ class MyBands extends Component {
     })
   }
 
+  onEventResize = (type, { event, start, end }) => {
+    alert("resize");
+    this.setState(state => {
+      state.events[0].start = start;
+      state.events[0].end = end;
+      return { events: state.events };
+    });
+  };
+
+  onEventDrop = ({ event, start, end, allDay }) => {
+    this.setState(state => {
+        state.events[0].start = start;
+        state.events[0].end = end;
+        return {events: state.events};
+    })
+  };
+
   render() {
     return (
       <div className="MyBands">
@@ -98,7 +126,13 @@ class MyBands extends Component {
           <hr></hr>
           <div>
             <h4 className="OwnedBandsTitle">Your Calendar</h4>
-            <CalendarGeneral />
+            <AddEventModal />
+            <CalendarGeneral 
+              calendarLoadStartDate={new Date()}
+              defaultView={"week"}
+              calendarEvents={this.state.events}
+              onEventDrop={this.onEventDrop}
+              onEventResize={this.onEventResize}/>
           </div>
         </div>
 
