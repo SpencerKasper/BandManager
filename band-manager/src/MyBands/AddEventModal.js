@@ -4,6 +4,7 @@ import {AsyncStorage} from 'AsyncStorage';
 import AddABandForm from './AddABandForm';
 import Axios from 'axios';
 import AddEventForm from './AddEventForm';
+import URLHelper from '../Helpers/URLHelper';
 
 class AddEventModal extends Component {
   constructor(props){
@@ -15,7 +16,8 @@ class AddEventModal extends Component {
         title: "",
         start: new Date(),
         end: new Date()
-      }
+      },
+      addEventURL: ""
     }
 
     this.setEventName = this.setEventName.bind(this);
@@ -25,6 +27,17 @@ class AddEventModal extends Component {
     this.setEventEndTime = this.setEventEndTime.bind(this);
     this.tryBuildDateTime = this.tryBuildDateTime.bind(this);
     this.addEvent = this.addEvent.bind(this);
+    this.setAddEventURL = this.setAddEventURL.bind(this);
+}
+
+componentDidMount(){
+    URLHelper.buildAPIURL("events", null, this.setAddEventURL);
+}
+
+setAddEventURL(URL){
+    this.setState({
+        addEventURL: URL
+    })
 }
 
   setEventName(eventName){
@@ -107,6 +120,16 @@ class AddEventModal extends Component {
   addEvent(){
     const event = this.state.event;
     this.props.addEventToCalendar(event);
+
+    Axios.post(this.state.addEventURL, {
+        title: event.title,
+        start: event.start,
+        end: event.end,
+        userID: this.props.userID,
+        eventType: event.eventType
+    }).then(response => {
+        alert(JSON.stringify(response.data));
+    })
   }
 
   render() {
