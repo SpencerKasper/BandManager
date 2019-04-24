@@ -114,6 +114,8 @@ class MyBands extends Component {
 
     this.setState({
       events
+    }, () => {
+      
     })
   }
 
@@ -138,7 +140,8 @@ class MyBands extends Component {
           <div>
             <h4 className="OwnedBandsTitle">Your Calendar</h4>
             <AddEventModal 
-              addEventToCalendar={this.addEventToCalendar}/>
+              addEventToCalendar={this.addEventToCalendar}
+              userID={this.state.userID}/>
             <CalendarGeneral 
               calendarLoadStartDate={new Date()}
               defaultView={"week"}
