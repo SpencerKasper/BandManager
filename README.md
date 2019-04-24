@@ -1,6 +1,5 @@
-# BandManager
-To run, from the command line, enter the band-manager directory and run the following command:
-	npm start
+# Band Manager
+To run, from the command line, enter the band-manager directory and run `npm start`.
 	
 You may have to instal nodejs into the directory if it is your first run.
 
