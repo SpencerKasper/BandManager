@@ -17,6 +17,7 @@ class MyBands extends Component {
     this.state = {
       ownedBands: [],
       getOwnedBandsURL: "",
+      getAllUserEventsURL: "",
       userID: "",
       ownedBandComponents: [],
       events: [
@@ -28,24 +29,39 @@ class MyBands extends Component {
       ]
     }
 
+    this.getOwnedBands = this.getOwnedBands.bind(this);
     this.addABandToOwnedBands = this.addABandToOwnedBands.bind(this);
     this.setGetOwnedBandsURL = this.setGetOwnedBandsURL.bind(this);
-    this.setOwnedBands = this.setOwnedBands.bind(this);
     this.buildOwnedBandsList = this.buildOwnedBandsList.bind(this);
     this.onEventResize = this.onEventResize.bind(this);
     this.onEventDrop = this.onEventDrop.bind(this);
     this.addEventToCalendar = this.addEventToCalendar.bind(this);
+    this.getAllUserEvents = this.getAllUserEvents.bind(this);
+    this.setGetUserEventsURL = this.setGetUserEventsURL.bind(this);
   }
 
-  componentDidMount(){
-    this.setOwnedBands();
+  componentWillMount(){
+    // Set userID and set URLs
+    AsyncStorage.getItem("loggedInUserID").then((value) => this.setState({userID: value},() => {
+      URLHelper.buildAPIURL("bands", ["userID=" + this.state.userID], this.setGetOwnedBandsURL);
+      URLHelper.buildAPIURL("events/" + this.state.userID, null, this.setGetUserEventsURL);
+    }));
   }
 
-  setGetOwnedBandsURL(URL){
-    this.setState({
-      getOwnedBandsURL: URL
-    }, () => {
-      Axios.get(URL)
+  getAllUserEvents(URL){
+    alert(URL);
+
+    Axios.get(URL)
+      .then((response) => {
+        alert(JSON.stringify(response.data));
+        this.setState({
+          events: response.data
+        })
+      })
+  }
+
+  getOwnedBands(URL){
+    Axios.get(URL)
         .then((response) => {
           this.setState({
             ownedBands: response.data
@@ -53,13 +69,22 @@ class MyBands extends Component {
             this.buildOwnedBandsList();
           })
         })
+  }
+
+  setGetUserEventsURL(URL){
+    this.setState({
+      getAllUserEventsURL: URL
+    }, () => {
+      this.getAllUserEvents(URL);
     })
   }
 
-  setOwnedBands(){
-    AsyncStorage.getItem("loggedInUserID").then((value) => this.setState({userID: value},() => {
-      URLHelper.buildAPIURL("bands", ["userID=" + this.state.userID], this.setGetOwnedBandsURL);
-    }));
+  setGetOwnedBandsURL(URL){
+    this.setState({
+      getOwnedBandsURL: URL
+    }, () => {
+      this.getOwnedBands(URL);
+    })
   }
 
   buildOwnedBandsList(){

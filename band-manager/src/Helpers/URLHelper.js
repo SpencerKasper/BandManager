@@ -3,7 +3,7 @@ export default {
         var URL = process.env.REACT_APP_API_DOMAIN;
         
         URL = URL + controller;
-        
+
         if(pathParams === null || pathParams.length === 0){
             setStateFunction(URL);
         }
