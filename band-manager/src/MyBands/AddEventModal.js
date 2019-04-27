@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import AppModal from '../AppComponents/AppModal';
-import {AsyncStorage} from 'AsyncStorage';
-import AddABandForm from './AddABandForm';
 import Axios from 'axios';
 import AddEventForm from './AddEventForm';
 import URLHelper from '../Helpers/URLHelper';
+import {Alert} from 'reactstrap';
 
 class AddEventModal extends Component {
   constructor(props){
@@ -12,10 +11,10 @@ class AddEventModal extends Component {
 
     this.state = {
       event: {
-        id: 1,
         title: "",
-        start: new Date(),
-        end: new Date()
+        start: {},
+        end: {},
+        eventType: ""
       },
       addEventURL: ""
     }
@@ -25,6 +24,7 @@ class AddEventModal extends Component {
     this.setEventStartTime = this.setEventStartTime.bind(this);
     this.setEventEndDate = this.setEventEndDate.bind(this);
     this.setEventEndTime = this.setEventEndTime.bind(this);
+    this.setEventType = this.setEventType.bind(this);
     this.tryBuildDateTime = this.tryBuildDateTime.bind(this);
     this.addEvent = this.addEvent.bind(this);
     this.setAddEventURL = this.setAddEventURL.bind(this);
@@ -44,8 +44,6 @@ setAddEventURL(URL){
       this.setState(state => {
         state.event.eventName = eventName;
         state.event.title = eventName;
-      }, () => {
-          alert(JSON.stringify(this.state.event));
       })
   }
 
@@ -81,6 +79,12 @@ setAddEventURL(URL){
       })
   }
 
+  setEventType(eventType){
+      this.setState(state => {
+          state.event.eventType = eventType;
+      })
+  }
+
   tryBuildDateTime(sStartOrEnd){
     var date = "";
     var time = "";
@@ -92,7 +96,7 @@ setAddEventURL(URL){
 
             const dateTimeAttempt = date + " " + time;
             const dateTime = new Date(dateTimeAttempt);
-        
+
             this.setState(state => {
                 state.event.start = dateTime;
             })
@@ -120,7 +124,7 @@ setAddEventURL(URL){
   addEvent(){
     const event = this.state.event;
     this.props.addEventToCalendar(event);
-
+    
     Axios.post(this.state.addEventURL, {
         title: event.title,
         start: event.start,
@@ -128,7 +132,11 @@ setAddEventURL(URL){
         userID: this.props.userID,
         eventType: event.eventType
     }).then(response => {
-        alert(JSON.stringify(response.data));
+        if(response.valid){
+            this.props.displayValidEventMessage();
+        } else {
+            this.props.displayErrorEventMessage();
+        }
     })
   }
 
@@ -147,7 +155,8 @@ setAddEventURL(URL){
                     shareEventStartDate={this.setEventStartDate}
                     shareEventStartTime={this.setEventStartTime}
                     shareEventEndDate={this.setEventEndDate}
-                    shareEventEndTime={this.setEventEndTime}/>
+                    shareEventEndTime={this.setEventEndTime}
+                    shareEventType={this.setEventType}/>
             }/>
         </div>
 

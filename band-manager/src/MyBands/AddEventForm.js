@@ -11,7 +11,8 @@ class AddEventForm extends Component {
             eventStartDate: "",
             eventStartTime: "",
             eventEndDate: "",
-            eventEndTime: ""
+            eventEndTime: "",
+            eventType: ""
         }
 
         this.accessEventName = this.accessEventName.bind(this);
@@ -19,6 +20,7 @@ class AddEventForm extends Component {
         this.accessEventStartTime = this.accessEventStartTime.bind(this);
         this.accessEventEndDate = this.accessEventEndDate.bind(this);
         this.accessEventEndTime = this.accessEventEndTime.bind(this);
+        this.accessEventType = this.accessEventType.bind(this);
     }
 
     accessEventName(event){
@@ -61,13 +63,22 @@ class AddEventForm extends Component {
         })
     }
 
+    accessEventType(event){
+        alert(event.target.value);
+        this.setState({
+            eventType: event.target.value
+        }, () => {
+            this.props.shareEventType(this.state.eventType);
+        })
+    }
+
   render() {
     return (
         <div className="AddEventFormContainer">
             <Form>
                 <FormGroup>
                     <Label for="eventType">Event Type</Label>
-                    <Input type="select" name="eventType" id="eventType">
+                    <Input type="select" name="eventType" id="eventType" onChange={this.accessEventType}>
                         <option></option>
                         <option>Gig</option>
                         <option>Practice</option>

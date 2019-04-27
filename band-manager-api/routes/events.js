@@ -33,8 +33,8 @@ router.post('/', function(req, res){
 
     collection.insert({
         title: req.body.title,
-        start: req.body.start,
-        end: req.body.end,
+        start: new Date(req.body.start),
+        end: new Date(req.body.end),
         userID: req.body.userID,
         eventType: req.body.eventType
     }, function(err, event){

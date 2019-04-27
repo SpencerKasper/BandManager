@@ -7,8 +7,10 @@ import {AsyncStorage} from 'AsyncStorage';
 import URLHelper from '../Helpers/URLHelper';
 import Band from './Band';
 import'./MyBands.css';
-import moment from 'moment';
+import '../App.css';
+import {Alert} from 'reactstrap';
 import AddEventModal from './AddEventModal';
+import ErrorMessage from '../Error/ErrorMessage';
 
 class MyBands extends Component {
   constructor(props){
@@ -20,13 +22,8 @@ class MyBands extends Component {
       getAllUserEventsURL: "",
       userID: "",
       ownedBandComponents: [],
-      events: [
-        {
-          start: new Date(),
-          end: new Date(moment().add(1, "hours")),
-          title: "Band Practice"
-        }
-      ]
+      events: [],
+      calendarMessages: []
     }
 
     this.getOwnedBands = this.getOwnedBands.bind(this);
@@ -38,6 +35,7 @@ class MyBands extends Component {
     this.addEventToCalendar = this.addEventToCalendar.bind(this);
     this.getAllUserEvents = this.getAllUserEvents.bind(this);
     this.setGetUserEventsURL = this.setGetUserEventsURL.bind(this);
+    this.displayValidEventMessage = this.displayValidEventMessage.bind(this);
   }
 
   componentWillMount(){
@@ -49,14 +47,28 @@ class MyBands extends Component {
   }
 
   getAllUserEvents(URL){
-    alert(URL);
-
     Axios.get(URL)
       .then((response) => {
-        alert(JSON.stringify(response.data));
-        this.setState({
-          events: response.data
-        })
+        const events = response.data;
+        
+        if(events.length > 0){
+          for(var i = 0; i < events.length; i++){
+            events[i].start = new Date(events[i].start);
+            events[i].end = new Date(events[i].end);
+          }
+          
+          this.setState({
+            events: events
+          })
+        } else {
+          this.setState({
+            calendarMessages: [
+              <Alert color="warning" className="AlignCenter">
+                It looks like you haven't added any events to your calendar.  Click the "Add Events" button below and get organized.
+              </Alert>
+            ]
+          })
+        }
       })
   }
 
@@ -144,6 +156,24 @@ class MyBands extends Component {
     })
   }
 
+  displayValidEventMessage(){
+    this.setState({
+        calendarMessages: [
+            <Alert color="success" className="AlignCenter">
+                You have successfully added an event to your calendar!
+            </Alert>
+        ]
+    })
+  }
+
+  displayErrorEventMessage(){
+    this.setState({
+      calendarMessages: [
+        <ErrorMessage errorMessage="There was an error adding the event to your calendar!"/>
+      ]
+    })
+  }
+
   render() {
     return (
       <div className="MyBands">
@@ -164,12 +194,17 @@ class MyBands extends Component {
           <hr></hr>
           <div>
             <h4 className="OwnedBandsTitle">Your Calendar</h4>
+            <div>
+              {this.state.calendarMessages}
+            </div>
             <AddEventModal 
               addEventToCalendar={this.addEventToCalendar}
-              userID={this.state.userID}/>
+              userID={this.state.userID}
+              displayValidEventMessage={this.displayValidEventMessage}
+              displayErrorEventMessage={this.displayValidEventMessage}/>
             <CalendarGeneral 
               calendarLoadStartDate={new Date()}
-              defaultView={"week"}
+              defaultView={"agenda"}
               calendarEvents={this.state.events}
               onEventDrop={this.onEventDrop}
               onEventResize={this.onEventResize}/>
