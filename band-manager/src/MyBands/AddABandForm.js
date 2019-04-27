@@ -35,7 +35,7 @@ class AddABandForm extends Component {
                     labelName={"Band Name:"}
                     inputType={"text"}
                     placeholder={"Enter a unique band name."}
-                    errorMessage={""}
+                    errorMessages={this.props.bandNameError}
                     shareItemValue={this.props.handleBandName}
                 />
 

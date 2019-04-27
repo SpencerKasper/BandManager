@@ -44,9 +44,9 @@ router.post('/', function(req, res){
     }
 
     if(returnItem.errorMessages.length > 0){
-        res.status(400).send({
+        res.json(
             returnItem
-        })
+        )
 
         return;
     }
@@ -61,9 +61,9 @@ router.post('/', function(req, res){
 
             console.error("Error: Band with that name already exists.");
             console.log(returnItem);
-            res.status(400).send({
+            res.json(
                 returnItem
-            })
+            )
 
             return;
         } else {

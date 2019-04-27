@@ -44,6 +44,10 @@ class InputItemGroup extends React.Component{
                 <div>
                     {this.state.errorMessage}
                 </div>
+
+                <div>
+                    {this.props.errorMessages}
+                </div>
                 <Label for={this.state.labelName}>{this.state.labelName}</Label>
                 <Input id={this.state.labelName} 
                     name={this.state.labelName}

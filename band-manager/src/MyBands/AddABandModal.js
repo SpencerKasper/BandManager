@@ -6,6 +6,7 @@ import Axios from 'axios';
 import {Alert} from 'reactstrap';
 import ErrorMessage from '../Error/ErrorMessage';
 import '../App.css';
+import URLHelper from '../Helpers/URLHelper';
 
 class AddABandModal extends Component {
   constructor(props){
@@ -16,13 +17,17 @@ class AddABandModal extends Component {
         bandName: "",
         bandMemberEmails: [],
         bandOwnerID: ""
-      }
+      },
+      addBandURL: "",
+      bandNameError: []
     }
 
     this.setBandState = this.setBandState.bind(this);
     this.addBand = this.addBand.bind(this);
     this.handleBandName = this.handleBandName.bind(this);
     this.handleBandMemberEmailAddress = this.handleBandMemberEmailAddress.bind(this);
+    this.setAddBandURL = this.setAddBandURL.bind(this);
+    this.getAddBandURL = this.getAddBandURL.bind(this);
   }
 
   componentDidMount(){
@@ -33,6 +38,14 @@ class AddABandModal extends Component {
     ).then(() => {
       this.setBandState(band);
     });
+
+    this.getAddBandURL();
+  }
+
+  setAddBandURL(URL){
+    this.setState({
+      addBandURL: URL
+    })
   }
 
   setBandState(band){
@@ -41,8 +54,12 @@ class AddABandModal extends Component {
     });
   }
 
+  getAddBandURL(){
+    URLHelper.buildAPIURL('bands', null, this.setAddBandURL);
+  }
+
   addBand(){
-    Axios.post("http://localhost:3000/bands", this.state.band)
+    Axios.post(this.state.addBandURL, this.state.band)
         .then(response => {
           if(response.data.valid){
             this.props.updateList(response.data.band);
@@ -60,6 +77,20 @@ class AddABandModal extends Component {
   }
 
   handleBandName(bandName){
+    if(bandName === "" || bandName === undefined || bandName === null){
+      this.setState({
+        bandNameError: [
+          <ErrorMessage errorMessage="You must enter a band name." />
+        ]
+      })
+
+      return;
+    } else {
+      this.setState({
+        bandNameError: []
+      })
+    }
+
     var band = this.state.band;
     band.bandName = bandName;
 
@@ -85,7 +116,8 @@ class AddABandModal extends Component {
             modalBody={
                 <AddABandForm 
                   handleBandName={this.handleBandName}
-                  handleEmailAddresses={this.handleBandMemberEmailAddress}/>
+                  handleEmailAddresses={this.handleBandMemberEmailAddress}
+                  bandNameError={this.state.bandNameError}/>
             }/>
         </div>
 
