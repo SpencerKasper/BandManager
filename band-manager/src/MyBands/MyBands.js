@@ -23,7 +23,8 @@ class MyBands extends Component {
       userID: "",
       ownedBandComponents: [],
       events: [],
-      calendarMessages: []
+      calendarMessages: [],
+      bandMessages: []
     }
 
     this.getOwnedBands = this.getOwnedBands.bind(this);
@@ -36,6 +37,7 @@ class MyBands extends Component {
     this.getAllUserEvents = this.getAllUserEvents.bind(this);
     this.setGetUserEventsURL = this.setGetUserEventsURL.bind(this);
     this.displayValidEventMessage = this.displayValidEventMessage.bind(this);
+    this.setBandMessages = this.setBandMessages.bind(this);
   }
 
   componentWillMount(){
@@ -174,6 +176,12 @@ class MyBands extends Component {
     })
   }
 
+  setBandMessages(bandMessages){
+    this.setState({
+      bandMessages
+    })
+  }
+
   render() {
     return (
       <div className="MyBands">
@@ -183,8 +191,12 @@ class MyBands extends Component {
         </div>
         
         <div>
+          <div>
+            {this.state.bandMessages}
+          </div>
           <AddABandModal 
-            updateList={this.addABandToOwnedBands}/>
+            updateList={this.addABandToOwnedBands}
+            setBandMessages={this.setBandMessages}/>
           <div className="OwnedBandsContainer">
             <h4 className="OwnedBandsTitle">Your Bands</h4>
             <div className="BandListContainer">

@@ -3,6 +3,9 @@ import AppModal from '../AppComponents/AppModal';
 import {AsyncStorage} from 'AsyncStorage';
 import AddABandForm from './AddABandForm';
 import Axios from 'axios';
+import {Alert} from 'reactstrap';
+import ErrorMessage from '../Error/ErrorMessage';
+import '../App.css';
 
 class AddABandModal extends Component {
   constructor(props){
@@ -41,11 +44,17 @@ class AddABandModal extends Component {
   addBand(){
     Axios.post("http://localhost:3000/bands", this.state.band)
         .then(response => {
-          alert(JSON.stringify(response.data));
           if(response.data.valid){
             this.props.updateList(response.data.band);
+            this.props.setBandMessages([
+              <Alert color="success" className="AlignCenter">
+                You have successfully added a band and become the owner.
+              </Alert>
+            ]);
           } else {
-            alert(response.data.errorMessage);
+            this.props.setBandMessages(response.data.errorMessages.map(errorMessage =>
+              <ErrorMessage errorMessage={errorMessage} />
+            ));
           }
         })
   }
