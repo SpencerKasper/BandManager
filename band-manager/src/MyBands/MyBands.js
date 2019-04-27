@@ -23,7 +23,8 @@ class MyBands extends Component {
       userID: "",
       ownedBandComponents: [],
       events: [],
-      calendarMessages: []
+      calendarMessages: [],
+      bandMessages: []
     }
 
     this.getOwnedBands = this.getOwnedBands.bind(this);
@@ -36,6 +37,7 @@ class MyBands extends Component {
     this.getAllUserEvents = this.getAllUserEvents.bind(this);
     this.setGetUserEventsURL = this.setGetUserEventsURL.bind(this);
     this.displayValidEventMessage = this.displayValidEventMessage.bind(this);
+    this.setBandMessages = this.setBandMessages.bind(this);
   }
 
   componentWillMount(){
@@ -78,7 +80,18 @@ class MyBands extends Component {
           this.setState({
             ownedBands: response.data
           }, () => {
-            this.buildOwnedBandsList();
+            if(response.data.length > 0){
+              this.buildOwnedBandsList();
+            } else {
+              this.setState({
+                bandMessages: [
+                  <Alert color="warning" className="AlignCenter">
+                    It seems you don't own any bands...Click above to create one!
+                  </Alert>
+                ]
+              })
+            }
+            
           })
         })
   }
@@ -174,6 +187,12 @@ class MyBands extends Component {
     })
   }
 
+  setBandMessages(bandMessages){
+    this.setState({
+      bandMessages
+    })
+  }
+
   render() {
     return (
       <div className="MyBands">
@@ -184,9 +203,13 @@ class MyBands extends Component {
         
         <div>
           <AddABandModal 
-            updateList={this.addABandToOwnedBands}/>
+            updateList={this.addABandToOwnedBands}
+            setBandMessages={this.setBandMessages}/>
+          <h4 className="OwnedBandsTitle">Your Bands</h4>
+          <div>
+            {this.state.bandMessages}
+          </div>
           <div className="OwnedBandsContainer">
-            <h4 className="OwnedBandsTitle">Your Bands</h4>
             <div className="BandListContainer">
               {this.state.ownedBandComponents}
             </div>

@@ -26,35 +26,66 @@ router.get('/:userID',function(req, res){
 // Add a band
 router.post('/', function(req, res){
     var collection = db.get('Bands');
+    const returnItem = {
+        valid: false,
+        errorMessages: [],
+        band: {}
+    };
+
+    // Validation
+    if(req.body.bandName === "" || req.body.bandName === undefined || req.body.bandName === null){
+        returnItem.valid = false;
+        returnItem.errorMessages.push("Band name is a required field.");
+    }
+
+    if(req.body.bandOwnerID === "" || req.body.bandOwnerID === undefined || req.body.bandOwnerID === null){
+        returnItem.valid = false;
+        returnItem.errorMessages.push("Band ownderID is a required field.");
+    }
+
+    if(returnItem.errorMessages.length > 0){
+        res.json(
+            returnItem
+        )
+
+        return;
+    }
     
     collection.findOne({bandName: req.body.bandName}, function(err,band){
         if(err) throw err;
         
-        const returnItem = {};
-        
         if(band != null && band.bandName === req.body.bandName){
-            returnItem.errorMessage = "Error: Band with that name already exists.";
+            returnItem.errorMessages.push("Error: Band with that name already exists.");
             returnItem.valid = false;
             returnItem.band = null;
 
             console.error("Error: Band with that name already exists.");
             console.log(returnItem);
-            res.status(200).send({
+            res.json(
                 returnItem
-            })
+            )
+
+            return;
         } else {
             collection.insert({
                 bandName: req.body.bandName,
                 bandOwnerID: req.body.bandOwnerID,
                 bandMemberEmailAddresses: req.body.bandMemberEmails
             }, function(err, band){
-                if(err) throw err;
+                if(err){
+                    returnItem.valid = false;
+                    returnItem.errorMessage = err.message;
+                    
+                    res.json(returnItem);
+                    return;
+                }
 
                 returnItem.valid = true;
                 returnItem.errorMessage = "";
                 returnItem.band = band;
         
                 res.json(returnItem);
+                return;
             });
         }
         
