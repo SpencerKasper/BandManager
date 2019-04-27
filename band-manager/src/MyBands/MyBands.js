@@ -80,7 +80,18 @@ class MyBands extends Component {
           this.setState({
             ownedBands: response.data
           }, () => {
-            this.buildOwnedBandsList();
+            if(response.data.length > 0){
+              this.buildOwnedBandsList();
+            } else {
+              this.setState({
+                bandMessages: [
+                  <Alert color="warning" className="AlignCenter">
+                    It seems you don't own any bands...Click above to create one!
+                  </Alert>
+                ]
+              })
+            }
+            
           })
         })
   }
@@ -191,14 +202,14 @@ class MyBands extends Component {
         </div>
         
         <div>
-          <div>
-            {this.state.bandMessages}
-          </div>
           <AddABandModal 
             updateList={this.addABandToOwnedBands}
             setBandMessages={this.setBandMessages}/>
+          <h4 className="OwnedBandsTitle">Your Bands</h4>
+          <div>
+            {this.state.bandMessages}
+          </div>
           <div className="OwnedBandsContainer">
-            <h4 className="OwnedBandsTitle">Your Bands</h4>
             <div className="BandListContainer">
               {this.state.ownedBandComponents}
             </div>
