@@ -13,7 +13,7 @@ let db;
 mongodb.MongoClient.connect('mongodb://localhost:27017', (err, client) => {
     assert.ifError(err);
 
-    db = client.db('gridfs');
+    db = client.db('band-manager-media');
 });
 
 // Stream a song

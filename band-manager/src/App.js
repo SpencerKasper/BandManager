@@ -8,7 +8,6 @@ import Login from './Login/Login';
 import {AsyncStorage} from 'AsyncStorage';
 import SignOut from './Login/SignOut';
 import AudioUpload from './AudioUpload/AudioUpload';
-import AudioPlayback from './AudioPlayback/AudioPlayback';
 import LandingPage from './LandingPage/LandingPage';
 
 class App extends Component {
@@ -49,7 +48,6 @@ class App extends Component {
           <div className="flex-wrapper">
             <Route exact path="/" component={LandingPage} />
             <Route path='/upload' component={AudioUpload}/>
-            <Route path='/playback' component={AudioPlayback}/>
             <Route exact path='/mybands' 
               render={(props) => <MyBands authenticated={this.state.authenticated}/>}/>
             <Route path='/register' component={Register} />

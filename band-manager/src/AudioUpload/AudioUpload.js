@@ -11,6 +11,7 @@ import Axios from 'axios';
 import 'react-dropzone-uploader/dist/styles.css';
 import Dropzone from 'react-dropzone-uploader';
 import {Alert} from 'reactstrap';
+import {AsyncStorage} from 'AsyncStorage';
 
 registerPlugin(FilePondPluginFileMetadata);
 
@@ -29,7 +30,8 @@ class AudioUpload extends React.Component {
                 Enter a song name and an artist and we will take care of the file for you!
             </Alert>
         ],
-        files: []
+        files: [],
+        loggedInUserID: ""
     };
 
     this.setUploadURL = this.setUploadURL.bind(this);
@@ -40,6 +42,14 @@ class AudioUpload extends React.Component {
     this.handleInit = this.handleInit.bind(this);
 }
 
+componentWillMount(){
+    AsyncStorage.getItem("loggedInUserID").then((value) => 
+      this.setState({
+          loggedInUserID: value
+      })
+    )
+}
+
 setMetadata(){
     const trackID = "5cacf1bf497bc34b04122328";
 
@@ -48,7 +58,7 @@ setMetadata(){
         "bandName": this.state.artist,
         "genre": this.state.genre
     }).then(response => {
-        alert("Added item");
+        
     })
 }
 
@@ -66,7 +76,6 @@ setFilePondObject(bFromSetArtist){
 
     if(bHasSongName && bHasArtist){
         const getUploadParams = ({meta}) => {
-            alert(this.state.uploadURL);
             return {
                 url: this.state.uploadURL
             }
@@ -139,7 +148,7 @@ setFilePondObject(bFromSetArtist){
 setUploadURL(bFromSetArtist){
     const baseURL = "http://localhost:3000/mediaHandler/";
     const songFileName = this.state.songName;
-    const bandName = this.state.artist;
+    const bandName = this.state.loggedInUserID;
 
     this.setState({
         uploadURL: baseURL + songFileName + "/" + bandName

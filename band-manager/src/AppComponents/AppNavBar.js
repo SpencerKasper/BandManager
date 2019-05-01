@@ -10,7 +10,6 @@ import {
   NavLink,
   Button} from 'reactstrap';
 import {AsyncStorage} from 'AsyncStorage';
-import AppHeader from './AppHeader';
 import AppGreeting from './AppGreeting';
 import AppGeneralGreeting from './AppGeneralGreeting';
 
@@ -68,9 +67,6 @@ class AppNavBar extends Component {
             </NavItem>
             <NavItem className="App">
               <NavLink href="/upload" style={appLink}>Upload</NavLink>
-            </NavItem>
-            <NavItem className="App">
-              <NavLink href="/playback" style={appLink}>Audio Player</NavLink>
             </NavItem>
             <NavItem className="App">
               <NavLink href="/signOut" style={appLink}>Sign Out</NavLink>

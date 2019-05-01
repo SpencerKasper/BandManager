@@ -11,6 +11,7 @@ import '../App.css';
 import {Alert} from 'reactstrap';
 import AddEventModal from './AddEventModal';
 import ErrorMessage from '../Error/ErrorMessage';
+import AudioPlayback from '../AudioPlayback/AudioPlayback';
 
 class MyBands extends Component {
   constructor(props){
@@ -43,7 +44,7 @@ class MyBands extends Component {
   componentWillMount(){
     // Set userID and set URLs
     AsyncStorage.getItem("loggedInUserID").then((value) => this.setState({userID: value},() => {
-      URLHelper.buildAPIURL("bands", ["userID=" + this.state.userID], this.setGetOwnedBandsURL);
+      URLHelper.buildAPIURL("bands/" + this.state.userID, null, this.setGetOwnedBandsURL);
       URLHelper.buildAPIURL("events/" + this.state.userID, null, this.setGetUserEventsURL);
     }));
   }
@@ -141,7 +142,6 @@ class MyBands extends Component {
   }
 
   onEventResize = (type, { event, start, end }) => {
-    alert("resize");
     this.setState(state => {
       state.events[0].start = start;
       state.events[0].end = end;
@@ -213,6 +213,11 @@ class MyBands extends Component {
             <div className="BandListContainer">
               {this.state.ownedBandComponents}
             </div>
+          </div>
+          <hr></hr>
+          <div>
+            <h4 className="OwnedBandsTitle">Your Uploaded Songs</h4>
+              <AudioPlayback />
           </div>
           <hr></hr>
           <div>

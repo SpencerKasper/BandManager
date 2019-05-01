@@ -15,9 +15,9 @@ class Song extends Component {
                     <h4>{songTitle}</h4>
                 </Col>
 
-                <Col>
+                {/* <Col>
                     <h5>{album}</h5>
-                </Col>
+                </Col> */}
             </Row>
 
             {this.props.audioPlayer}
