@@ -5,7 +5,8 @@ import 'react-responsive-audio-player/dist/audioplayer.css';
 import Axios from 'axios';
 import Song from './Song';
 import './AudioPlayback.css';
-import ErrorMessage from '../Error/ErrorMessage';
+import {AsyncStorage} from 'AsyncStorage';
+import {Alert} from 'reactstrap';
 
 class AudioPlayback extends React.Component {
   constructor(props) {
@@ -34,7 +35,13 @@ class AudioPlayback extends React.Component {
 }
 
 componentDidMount(){
-    this.buildAudioPlayers();
+    AsyncStorage.getItem("loggedInUserID").then((value) => 
+      this.setState({
+          loggedInUserID: value
+      }, () => {
+        this.buildAudioPlayers();
+      })
+    )
 }
 
 buildPlaylist(URL, track){
@@ -50,7 +57,7 @@ buildPlaylist(URL, track){
 
 buildAudioPlayers(){
     const audioPlayers = [];
-    const bucketName = "Elise and the Police";
+    const bucketName = this.state.loggedInUserID;
 
     Axios.get("http://localhost:3000/mediaHandler/" + bucketName)
         .then(response => {
@@ -114,12 +121,11 @@ handleSongName(songName){
     const error = [];
 
     if(!bSongsToDisplay) {
-        error.push(<ErrorMessage errorMessage={"There are no songs to display! Please go to the upload page to upload media."}/>);
+        error.push(<Alert color="warning" className="AlignCenter">There are no songs to display! Please go to the upload page to upload media.</Alert>);
     }
 
     return (
       <div>
-        <AppHeader title="Audio Player"/>
         {error}
 
         {this.state.songs}

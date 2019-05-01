@@ -64,7 +64,6 @@ class AddEventForm extends Component {
     }
 
     accessEventType(event){
-        alert(event.target.value);
         this.setState({
             eventType: event.target.value
         }, () => {
