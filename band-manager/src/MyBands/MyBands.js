@@ -142,7 +142,7 @@ class MyBands extends Component {
     })
   }
 
-  onEventResize = (type, { event, start, end }) => {
+  onEventResize = ({ event, start, end, allDay }) => {
     this.setState(state => {
       state.events[0].start = start;
       state.events[0].end = end;

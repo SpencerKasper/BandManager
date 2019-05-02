@@ -13,8 +13,7 @@ class UserAudioUploadModal extends React.Component {
     this.state = {
       modal: false
     };
-
-    this.submit = this.submit.bind(this);
+    
     this.toggle = this.toggle.bind(this);
   }
 
@@ -22,12 +21,6 @@ class UserAudioUploadModal extends React.Component {
     this.setState({
       modal: !this.state.modal
     });
-  }
-
-  submit() {
-    this.setState({
-      modal: !this.state.modal
-    })
   }
 
   render() {
