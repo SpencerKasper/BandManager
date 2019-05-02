@@ -66,9 +66,6 @@ class AppNavBar extends Component {
               <NavLink href="/mybands" style={appLink}>My Bands</NavLink>
             </NavItem>
             <NavItem className="App">
-              <NavLink href="/upload" style={appLink}>Upload</NavLink>
-            </NavItem>
-            <NavItem className="App">
               <NavLink href="/signOut" style={appLink}>Sign Out</NavLink>
             </NavItem>
           </Nav>

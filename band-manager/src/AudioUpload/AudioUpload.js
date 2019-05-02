@@ -182,7 +182,6 @@ setUploadURL(bFromSetArtist){
   render() {
     return (
       <div>
-        <AppHeader title="Audio Upload"/>
         {this.state.errorMessage}
         <Form className="AudioUploadForm">
             <InputItemGroup

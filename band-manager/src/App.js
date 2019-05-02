@@ -47,7 +47,6 @@ class App extends Component {
 
           <div className="flex-wrapper">
             <Route exact path="/" component={LandingPage} />
-            <Route path='/upload' component={AudioUpload}/>
             <Route exact path='/mybands' 
               render={(props) => <MyBands authenticated={this.state.authenticated}/>}/>
             <Route path='/register' component={Register} />
