@@ -1,7 +1,6 @@
 import React from 'react';
 import InputItemGroup from '../AppComponents/InputItemGroup';
 import { Form, Button } from 'reactstrap';
-import AppHeader from '../AppComponents/AppHeader';
 import {FilePond, registerPlugin} from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import './AudioUpload.css';
@@ -9,7 +8,6 @@ import FilePondPluginFileMetadata from 'filepond-plugin-file-metadata';
 import ErrorMessage from '../Error/ErrorMessage';
 import Axios from 'axios';
 import 'react-dropzone-uploader/dist/styles.css';
-import Dropzone from 'react-dropzone-uploader';
 import {Alert} from 'reactstrap';
 import {AsyncStorage} from 'AsyncStorage';
 
@@ -100,11 +98,7 @@ setFilePondObject(bFromSetArtist){
                             process: this.state.uploadURL
                         }}
                         oninit={() => this.handleInit()}
-                        />,
-                        <Dropzone 
-                            getUploadParams={getUploadParams}
-                            onChangeStatus={handleChangeStatus}
-                            onSubmit={handleSubmit}/>
+                        />
             ],
             errorMessage: []   
         }, () => {

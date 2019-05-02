@@ -8,10 +8,11 @@ import URLHelper from '../Helpers/URLHelper';
 import Band from './Band';
 import'./MyBands.css';
 import '../App.css';
-import {Alert} from 'reactstrap';
+import {Alert, Row} from 'reactstrap';
 import AddEventModal from './AddEventModal';
 import ErrorMessage from '../Error/ErrorMessage';
 import AudioPlayback from '../AudioPlayback/AudioPlayback';
+import UserAudioUploadModal from './UserAudioUploadModal';
 
 class MyBands extends Component {
   constructor(props){
@@ -202,9 +203,16 @@ class MyBands extends Component {
         </div>
         
         <div>
-          <AddABandModal 
-            updateList={this.addABandToOwnedBands}
-            setBandMessages={this.setBandMessages}/>
+          <Row className="UserButtonsContainer">
+            <div className="UserButton">
+              <AddABandModal 
+                updateList={this.addABandToOwnedBands}
+                setBandMessages={this.setBandMessages}/>
+            </div>
+            <div className="UserButton">
+              <UserAudioUploadModal />
+            </div>
+          </Row>
           <h4 className="OwnedBandsTitle">Your Bands</h4>
           <div>
             {this.state.bandMessages}

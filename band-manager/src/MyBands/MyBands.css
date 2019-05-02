@@ -12,6 +12,19 @@
     text-align: center;
 }
 
+.UserButton {
+    padding: 10px;
+    text-align: center;
+}
+
+.UserButtonsContainer {
+    padding: 20px;
+}
+
+.UserMediaUploadModal {
+    width: 75%;
+}
+
 .ViewCalendarButton {
     text-align: right;
 }
