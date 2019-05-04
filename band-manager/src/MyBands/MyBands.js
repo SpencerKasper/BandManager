@@ -8,10 +8,11 @@ import URLHelper from '../Helpers/URLHelper';
 import Band from './Band';
 import'./MyBands.css';
 import '../App.css';
-import {Alert} from 'reactstrap';
+import {Alert, Row} from 'reactstrap';
 import AddEventModal from './AddEventModal';
 import ErrorMessage from '../Error/ErrorMessage';
 import AudioPlayback from '../AudioPlayback/AudioPlayback';
+import UserAudioUploadModal from './UserAudioUploadModal';
 
 class MyBands extends Component {
   constructor(props){
@@ -141,7 +142,7 @@ class MyBands extends Component {
     })
   }
 
-  onEventResize = (type, { event, start, end }) => {
+  onEventResize = ({ event, start, end, allDay }) => {
     this.setState(state => {
       state.events[0].start = start;
       state.events[0].end = end;
@@ -202,9 +203,16 @@ class MyBands extends Component {
         </div>
         
         <div>
-          <AddABandModal 
-            updateList={this.addABandToOwnedBands}
-            setBandMessages={this.setBandMessages}/>
+          <Row className="UserButtonsContainer">
+            <div className="UserButton">
+              <AddABandModal 
+                updateList={this.addABandToOwnedBands}
+                setBandMessages={this.setBandMessages}/>
+            </div>
+            <div className="UserButton">
+              <UserAudioUploadModal />
+            </div>
+          </Row>
           <h4 className="OwnedBandsTitle">Your Bands</h4>
           <div>
             {this.state.bandMessages}
@@ -232,7 +240,7 @@ class MyBands extends Component {
               displayErrorEventMessage={this.displayValidEventMessage}/>
             <CalendarGeneral 
               calendarLoadStartDate={new Date()}
-              defaultView={"agenda"}
+              defaultView={"month"}
               calendarEvents={this.state.events}
               onEventDrop={this.onEventDrop}
               onEventResize={this.onEventResize}/>

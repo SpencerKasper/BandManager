@@ -24,6 +24,7 @@ class CalendarGeneral extends Component {
           defaultView={defaultView}
           events={calendarEvents}
           onEventDrop={this.props.onEventDrop}
+          onEventResize={this.props.onEventResize}
           localizer={localizer}
           style={{ height: "100vh" }}
         />
