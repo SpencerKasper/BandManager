@@ -240,7 +240,7 @@ class MyBands extends Component {
               displayErrorEventMessage={this.displayValidEventMessage}/>
             <CalendarGeneral 
               calendarLoadStartDate={new Date()}
-              defaultView={"agenda"}
+              defaultView={"month"}
               calendarEvents={this.state.events}
               onEventDrop={this.onEventDrop}
               onEventResize={this.onEventResize}/>
